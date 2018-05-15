@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">TO.BUY.IT</string>
+    <string name="botao_login">Entrar</string>
+    <string name="botao_registar">Registar</string>
+    <string name="entrada_contacto">...</string>
+    <string name="pedir_contacto">Introduza email</string>
+
+    <string name="title_activity_main">TO.BUY.IT</string>
+
+    <string name="navigation_drawer_open">Abrir menu</string>
+    <string name="navigation_drawer_close">Fechar menu</string>
+    <string name="nav_header_title">username</string>
+    <string name="nav_header_subtitle">email</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Definições</string>
+    <string name="title_activity_login">Iniciar Sessão</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>

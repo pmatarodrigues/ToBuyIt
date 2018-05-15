@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+>
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:contentDescription="@string/app_name"
+        app:srcCompat="@drawable/imagem_registar"
+        />
+
+    <TextView
+        android:layout_marginTop="20dp"
+        android:layout_width="217dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAllCaps="true"
+        android:text="Nome de utilizador"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:textSize="15sp" />
+    <EditText
+        android:id="@+id/campo_username_registar"
+        android:layout_width="217dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:inputType="text"
+        />
+
+
+    <TextView
+        android:layout_width="217dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAllCaps="true"
+        android:text="Palavra-Passe"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:textSize="15sp" />
+    <EditText
+        android:id="@+id/campo_pass_registar"
+        android:layout_width="217dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:inputType="textPassword"
+        />
+
+    <TextView
+        android:layout_width="217dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textAllCaps="true"
+        android:text="Confirmar Palavra-Passe"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:textSize="15sp" />
+    <EditText
+        android:id="@+id/campo_confpass_registar"
+        android:layout_width="217dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:inputType="textPassword"
+        />
+
+
+    <Button
+        android:id="@+id/botao_voltar_ao_login"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        android:text="Voltar ao login"
+        android:textColor="@color/colorPrimary"
+        android:onClick="voltarALogin"
+        android:textSize="10sp" />
+
+    <Button
+        android:id="@+id/botao_registar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/side_nav_bar"
+        android:text="@string/botao_registar"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+
+
+</LinearLayout>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:id="@+id/layout_login"
+    tools:context="com.example.pedro.tobuyit.Login">
+
+
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:contentDescription="@string/app_name"
+        app:srcCompat="@drawable/imagem_login" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:text="Iniciar Sessão"
+        />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="217dp"
+        android:layout_height="41dp"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:text="@string/pedir_contacto"
+        android:textColor="@android:color/black"
+        android:textSize="30sp" />
+
+
+    <EditText
+        android:id="@+id/campo_texto_mail"
+        android:layout_width="217dp"
+        android:layout_height="65dp"
+        android:layout_gravity="center"
+        android:inputType="textPersonName"
+        android:labelFor="@id/campo_texto_mail"
+        tools:text="@string/entrada_contacto" />
+
+
+    <Button
+        android:id="@+id/botao_entrar"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"
+        android:background="@drawable/button_background"
+        android:onClick="iniciarSessao"
+        android:text="@string/botao_login"
+        android:textColor="@android:color/white"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/botao_registar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:onClick="irParaRegistar"
+        android:text="@string/botao_registar"
+        android:textColor="@color/colorPrimary"
+        android:textSize="15sp"
+        />
+
+
+</LinearLayout>

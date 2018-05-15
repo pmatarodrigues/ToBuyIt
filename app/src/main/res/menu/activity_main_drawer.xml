@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single" android:id="@+id/menu_opcoes_conta">
+        <item
+            android:id="@+id/nav_aminhaconta"
+            android:icon="@drawable/icon_aminhaconta"
+            android:title="A Minha Conta" />
+    </group>
+    <group android:id="@+id/menu_opcoes_principal" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_inicio"
+            android:icon="@drawable/icon_inicio"
+            android:title="Inicio" />
+        <item
+            android:id="@+id/nav_produtos"
+            android:icon="@drawable/icon_produtos"
+            android:title="Produtos" />
+        <item
+            android:id="@+id/nav_lista_compras"
+            android:icon="@drawable/icon_listadecompras"
+            android:title="Lista de Compras" />
+        <item
+            android:id="@+id/nav_carrinho"
+            android:icon="@drawable/icon_carrinho"
+            android:title="Carrinho" />
+    </group>
+
+    <group android:id="@+id/menu_opcoes_sobre" android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_ondeestamos"
+            android:icon="@drawable/icon_ondeestamos"
+            android:title="Onde Estamos" />
+        <item
+            android:id="@+id/nav_contactos"
+            android:icon="@drawable/icon_contactos"
+            android:title="Contactos" />
+        <item
+            android:id="@+id/nav_ajuda"
+            android:icon="@drawable/icon_ajuda"
+            android:title="Ajuda" />
+
+    </group>
+
+    <item
+        android:id="@+id/nav_logout"
+        android:icon="@drawable/icon_terminarsessao"
+        android:title="Terminar Sessao" />
+
+</menu>
