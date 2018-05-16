@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 public class Entrada extends Fragment {
 
 
+
     public Entrada() {
         // Required empty public constructor
     }

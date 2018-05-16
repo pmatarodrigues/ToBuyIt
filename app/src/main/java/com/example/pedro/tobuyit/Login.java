@@ -66,7 +66,11 @@ public class Login extends AppCompatActivity {
         }
 
         Intent intent = new Intent(this, MainActivity.class);
+        Bundle b = new Bundle();
+        b.putString("nome", txfMailLogin.getText().toString());
+        intent.putExtras(b);
         startActivity(intent);
+        finish();
     }
 
 
