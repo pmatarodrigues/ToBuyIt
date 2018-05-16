@@ -5,55 +5,80 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class Login extends AppCompatActivity {
 
-    EditText campoTextoMail;
+    ArrayList<Utilizador> users = new ArrayList<>();
+    EditText txfMailLogin;
+    EditText txfUsernameRegistar;
+    EditText txfPasswordRegistar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-
-
-        campoTextoMail = (EditText) findViewById(R.id.campo_texto_mail);
     }
 
+    //----------------------------- FUNCOES PARA BOTOES ----------------------------------//
+    public void irParaRegistar(View view){
+        setContentView(R.layout.layout_registar);
+    }
+    public void voltarALogin(View view) throws ClassNotFoundException {
+        setContentView(R.layout.activity_login);
+    }
 
-
+    //--------------------------- FUNCOES EM INICIAR SESSAO ----------------------------//
     public void iniciarSessao(View view){
-        campoTextoMail.getText();
+        txfMailLogin = (EditText) findViewById(R.id.campo_mail_login);
 
-        confirmarInicioSessao(view);
-    }
+        for(int i = 0; i < users.size(); i++) {
+            System.out.println(users.get(i));
+            if (txfMailLogin.getText().toString() == users.get(i).getUsername()){
+                System.out.println("USERNAME VALIDO \n\n\n\n");
+            }
+            else{
+                System.out.println("USERNAME INVALIDO! \n\n\n\n\n");
+            }
+        }
 
-    public void confirmarInicioSessao(View view){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
 
+    //------------------------------ FUNCOES EM REGISTAR ---------------------------/
+    public void registar(View view) throws IOException {
+        txfUsernameRegistar = findViewById(R.id.campo_username_registar);
+        txfPasswordRegistar = findViewById(R.id.campo_pass_registar);
 
-    //----------- ALTERAR LAYOUT PARA REGISTAR
-    public void irParaRegistar(View view){
-        setContentView(R.layout.layout_registar);
-    }
-    public void voltarALogin(View view){
-        setContentView(R.layout.activity_login);
+        Utilizador user = new Utilizador();
+        user.setUsername(txfUsernameRegistar.getText().toString());
+        user.setPassword(txfPasswordRegistar.getText().toString());
+        users.add(user);
     }
 
 
@@ -61,42 +86,38 @@ public class Login extends AppCompatActivity {
 
     //--------------------------------------------- FICHEIROS ------------------------------------------------
     //------------ GRAVAR DADOS EM FICHEIRO
-    public void gravarEmFicheiro(String dados, Context context){
+    private void gravarUtilizador(View view, Utilizador user) throws IOException {
+
+        Context context = this.getApplicationContext();
         try{
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("users.txt",  Context.MODE_PRIVATE));
-            outputStreamWriter.write("Ola");
-            outputStreamWriter.close();
+            FileOutputStream fos = context.openFileOutput("users.txt", MODE_APPEND);
+            ObjectOutputStream os = new ObjectOutputStream(fos);
+            os.writeObject(users);
+            System.out.println("\n\n\n--------------------- GRAVOU" + users.get(0).getUsername() + " \n \n \n \n \n \n " +
+                    "------------------------------- "+ users.get(0).getPassword());
+            os.close();
+            fos.close();
         }catch (IOException e){
             Log.e("Exception", "Erro ao gravar para ficheiro: " + e.toString());
         }
     }
-
-
     //---------- LER DADOS DE FICHEIRO
-    public void lerDeFicheiro(Context context){
+    private ArrayList lerUtilizadoresGuardados(View view) throws ClassNotFoundException {
 
         try {
-            InputStream inputStream = context.openFileInput("config.txt");
+            FileInputStream fis = getApplicationContext().openFileInput("users.txt");
+            ObjectInputStream is = new ObjectInputStream(fis);
+            ArrayList<Utilizador> users = (ArrayList) is.readObject();
+            is.close();
+            fis.close();
 
-            if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-                StringBuilder stringBuilder = new StringBuilder();
+            System.out.println("\n\n\n--------------------- LEUUUUU" + users.get(0).getUsername() + " \n \n \n \n \n \n " +
+                    "------------------------------- "+ users.get(0).getPassword());
 
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
-                    stringBuilder.append(receiveString);
-                }
-
-                inputStream.close();
-            }
-        }
-        catch (FileNotFoundException e) {
-            Log.e("login activity", "Ficheiro nao encontrado: " + e.toString());
         } catch (IOException e) {
-            Log.e("login activity", "Nao foi possivel ler ficheiro: " + e.toString());
+            e.printStackTrace();
         }
-
+        return users;
     }
 }
 

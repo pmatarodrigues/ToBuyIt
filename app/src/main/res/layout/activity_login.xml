@@ -40,13 +40,12 @@
 
 
     <EditText
-        android:id="@+id/campo_texto_mail"
+        android:id="@+id/campo_mail_login"
         android:layout_width="217dp"
         android:layout_height="65dp"
         android:layout_gravity="center"
         android:inputType="textPersonName"
-        android:labelFor="@id/campo_texto_mail"
-        tools:text="@string/entrada_contacto" />
+        />
 
 
     <Button
