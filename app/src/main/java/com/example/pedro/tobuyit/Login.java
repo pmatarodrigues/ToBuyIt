@@ -41,6 +41,12 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        try {
+            users = lerUtilizadoresGuardados();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     //----------------------------- FUNCOES PARA BOTOES ----------------------------------//
@@ -55,22 +61,27 @@ public class Login extends AppCompatActivity {
     public void iniciarSessao(View view){
         txfMailLogin = (EditText) findViewById(R.id.campo_mail_login);
 
-        for(int i = 0; i < users.size(); i++) {
-            System.out.println(users.get(i));
-            if (txfMailLogin.getText().toString() == users.get(i).getUsername()){
-                System.out.println("USERNAME VALIDO \n\n\n\n");
+        if(users.size() > 0) {
+            for (int i = 0; i < users.size(); i++) {
+                if (txfMailLogin.getText().toString().equals(users.get(i).getUsername())) {
+                    System.out.println("USERNAME VALIDO \n\n\n\n");
+
+                    //--------- mudar a activity de entrada -----------//
+                    Intent intent = new Intent(this, MainActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("nome", txfMailLogin.getText().toString());
+                    intent.putExtras(b);
+                    startActivity(intent);
+                    finish();
+
+                } else {
+                    System.out.println("USERNAME INVALIDO! \n\n\n\n\n");
+                }
             }
-            else{
-                System.out.println("USERNAME INVALIDO! \n\n\n\n\n");
-            }
+        }else{
+            System.out.println("NAO EXISTEM UTILIZADORES");
         }
 
-        Intent intent = new Intent(this, MainActivity.class);
-        Bundle b = new Bundle();
-        b.putString("nome", txfMailLogin.getText().toString());
-        intent.putExtras(b);
-        startActivity(intent);
-        finish();
     }
 
 
@@ -83,6 +94,8 @@ public class Login extends AppCompatActivity {
         user.setUsername(txfUsernameRegistar.getText().toString());
         user.setPassword(txfPasswordRegistar.getText().toString());
         users.add(user);
+
+        gravarUtilizador(view, users);
     }
 
 
@@ -90,34 +103,34 @@ public class Login extends AppCompatActivity {
 
     //--------------------------------------------- FICHEIROS ------------------------------------------------
     //------------ GRAVAR DADOS EM FICHEIRO
-    private void gravarUtilizador(View view, Utilizador user) throws IOException {
+    private void gravarUtilizador(View view, ArrayList<Utilizador> users) throws IOException {
 
         Context context = this.getApplicationContext();
         try{
-            FileOutputStream fos = context.openFileOutput("users.txt", MODE_APPEND);
+            FileOutputStream fos = context.openFileOutput("users.txt", MODE_PRIVATE);
             ObjectOutputStream os = new ObjectOutputStream(fos);
             os.writeObject(users);
-            System.out.println("\n\n\n--------------------- GRAVOU" + users.get(0).getUsername() + " \n \n \n \n \n \n " +
-                    "------------------------------- "+ users.get(0).getPassword());
             os.close();
             fos.close();
+
+            System.out.println("\n\nUTILIZADOR GUARDADO!");
         }catch (IOException e){
             Log.e("Exception", "Erro ao gravar para ficheiro: " + e.toString());
         }
     }
-    //---------- LER DADOS DE FICHEIRO
-    private ArrayList lerUtilizadoresGuardados(View view) throws ClassNotFoundException {
 
+    //---------- LER DADOS DE FICHEIRO
+    private ArrayList<Utilizador> lerUtilizadoresGuardados() throws ClassNotFoundException {
+
+        ArrayList<Utilizador> users = new ArrayList<>();
         try {
             FileInputStream fis = getApplicationContext().openFileInput("users.txt");
             ObjectInputStream is = new ObjectInputStream(fis);
-            ArrayList<Utilizador> users = (ArrayList) is.readObject();
+            users = (ArrayList<Utilizador>) is.readObject();
             is.close();
             fis.close();
 
-            System.out.println("\n\n\n--------------------- LEUUUUU" + users.get(0).getUsername() + " \n \n \n \n \n \n " +
-                    "------------------------------- "+ users.get(0).getPassword());
-
+            System.out.println("\nUTILIZADOR RECEBIDO!");
         } catch (IOException e) {
             e.printStackTrace();
         }
