@@ -43,8 +43,10 @@ public class Login extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        // ------------ verifica se este intent foi aberto depois de terminar sessão
         if(getIntent().getExtras() != null){
             for(int i = 0; i < users.size(); i++){
+                // --------- termina sessão do utilizador
                 users.get(i).setAtivo(false);
                 try {
                     gravarUtilizador(users);
@@ -58,10 +60,12 @@ public class Login extends AppCompatActivity {
             if(users.get(i).getAtivo()){
                 num = i;
                 existe = true;
+                // ---- abre a aplicação principal
                 entrar();
             }
         }
         if(!existe){
+            // ---- pede para iniciar sessao
             setContentView(R.layout.activity_login);
         }
 
@@ -79,6 +83,7 @@ public class Login extends AppCompatActivity {
     // ------ ESTA FUNÇÃO É CHAMADA CASO O UTILIZADOR JÁ TENHA SESSÃO INICIADA
     public void entrar(){
         Intent intent = new Intent(this, MainActivity.class);
+        // envia o "id" do utilizador para o novo intent
         intent.putExtra("USER_ATIVO", String.valueOf(num));
         users.get(num).setAtivo(true);
         startActivity(intent);
