@@ -21,6 +21,9 @@ public class Utilizador implements Serializable {
     private String morada;
     private ArrayList<ListaCompras> listasDeCompras;
 
+    public Utilizador(Boolean ativo) {
+        this.ativo = ativo;
+    }
 
     public String getUsername() {
         return username;

@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity
         android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().replace(R.id.fragment_layout, entrada, entrada.getTag()).commit();
 
-
         num = Integer.parseInt(getIntent().getStringExtra("USER_ATIVO"));
         try {
             users = lerUtilizadoresGuardados();
@@ -147,6 +146,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_logout) {
             users.get(num).setAtivo(false);
             Intent intent = new Intent(this, Login.class);
+            intent.putExtra("ANTERIOR", true);
             startActivity(intent);
             finish();
         }

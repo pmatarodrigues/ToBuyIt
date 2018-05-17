@@ -23,7 +23,6 @@ public class Inicio extends AppCompatActivity {
         setContentView(R.layout.activity_inicio);
 
 
-
         final View myLayout = findViewById(R.id.showTitle);
         new Handler().postDelayed(new Runnable() {
             @Override

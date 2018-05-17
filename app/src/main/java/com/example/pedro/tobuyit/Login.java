@@ -29,6 +29,7 @@ public class Login extends AppCompatActivity {
     TextView txvAvisoLoginUsername;
     TextView txvAvisoLoginPassword;
 
+    Boolean existe = false;
     int num; //vai permitir introduzir o login e a password em paginas diferentes
 
     @Override
@@ -42,17 +43,27 @@ public class Login extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        // -------------- VERIFICA SE EXISTE ALGUM UTILIZADOR COM SESSAO INICIADA
-        for(int i = 0; i < users.size(); i++){
-            users.get(i).setAtivo(true);
-            if(users.get(i).getAtivo()){
-                num = i;
-                entrar();
-            } else{
-                setContentView(R.layout.activity_login);
+        if(getIntent().getExtras() != null){
+            for(int i = 0; i < users.size(); i++){
+                users.get(i).setAtivo(false);
+                try {
+                    gravarUtilizador(users);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
-
+        // -------------- VERIFICA SE EXISTE ALGUM UTILIZADOR COM SESSAO INICIADA
+        for(int i = 0; i < users.size(); i++){
+            if(users.get(i).getAtivo()){
+                num = i;
+                existe = true;
+                entrar();
+            }
+        }
+        if(!existe){
+            setContentView(R.layout.activity_login);
+        }
 
     }
 
@@ -103,14 +114,16 @@ public class Login extends AppCompatActivity {
         }
     }
 
-    public void iniciarSessao(View view){
+    public void iniciarSessao(View view) throws IOException {
         txfPasswordLogin = (EditText) findViewById(R.id.campo_password_login);
         txvAvisoLoginPassword = (TextView) findViewById(R.id.aviso_login_password);
 
         if (users.get(num).getPassword().equals(txfPasswordLogin.getText().toString())) {
             //--------- mudar para a activity de entrada -----------//
             Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra("USER_ATIVO", String.valueOf(num));
             users.get(num).setAtivo(true);
+            gravarUtilizador(users);
             startActivity(intent);
             finish();
         } else {
@@ -125,12 +138,14 @@ public class Login extends AppCompatActivity {
         txfUsernameRegistar = findViewById(R.id.campo_username_registar);
         txfPasswordRegistar = findViewById(R.id.campo_pass_registar);
 
-        Utilizador user = new Utilizador();
+        Utilizador user = new Utilizador(false);
         user.setUsername(txfUsernameRegistar.getText().toString());
         user.setPassword(txfPasswordRegistar.getText().toString());
         users.add(user);
 
-        gravarUtilizador(view, users);
+        gravarUtilizador(users);
+        //volta para a pagina de login
+        setContentView(R.layout.activity_login);
     }
 
 
@@ -138,7 +153,7 @@ public class Login extends AppCompatActivity {
 
     //--------------------------------------------- FICHEIROS ------------------------------------------------
     //------------ GRAVAR DADOS EM FICHEIRO
-    private void gravarUtilizador(View view, ArrayList<Utilizador> users) throws IOException {
+    private void gravarUtilizador(ArrayList<Utilizador> users) throws IOException {
 
         Context context = this.getApplicationContext();
         try{
