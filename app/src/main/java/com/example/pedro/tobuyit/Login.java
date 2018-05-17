@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -30,6 +31,8 @@ import java.io.OutputStreamWriter;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import static android.graphics.Color.rgb;
+
 public class Login extends AppCompatActivity {
 
     ArrayList<Utilizador> users = new ArrayList<>();
@@ -37,6 +40,8 @@ public class Login extends AppCompatActivity {
     EditText txfPasswordLogin;
     EditText txfUsernameRegistar;
     EditText txfPasswordRegistar;
+    TextView txvAvisoLoginUsername;
+    TextView txvAvisoLoginPassword;
 
     int num; //vai permitir introduzir o login e a password em paginas diferentes
 
@@ -63,23 +68,35 @@ public class Login extends AppCompatActivity {
     //--------------------------- FUNCOES EM INICIAR SESSAO ----------------------------//
     public void avancarParaPassword(View view){
         txfMailLogin = (EditText) findViewById(R.id.campo_mail_login);
+        txvAvisoLoginUsername = (TextView) findViewById(R.id.aviso_login_username);
 
-        //------------ VERIFICA SE O USERNAME INTRODUZIDO EXISTE NA BASE DE DADOS
-        if(users.size() > 0) {
-            for (int i = 0; i < users.size(); i++) {
-                if (txfMailLogin.getText().toString().equals(users.get(i).getUsername())) {
-                    setContentView(R.layout.layout_login_password);     //----------- MUDA PARA O LAYOUT DA PASSWORD
-                    num = i;        //----- FAZ COM QUE NAO SEJA NECESSÁRIO VOLTAR A CORRER TODOS OS UTILIZADORES
-                }   else {
+        if(txfMailLogin.getText().length() == 0){
+            txvAvisoLoginUsername.setText("Introduza o nome utilizador");
+            txvAvisoLoginUsername.setTextColor(rgb(255, 0, 0));
+        }
+        else {
+            //------------ VERIFICA SE O USERNAME INTRODUZIDO EXISTE NA BASE DE DADOS
+            if (users.size() > 0) {
+                for (int i = 0; i < users.size(); i++) {
+                    if (txfMailLogin.getText().toString().equals(users.get(i).getUsername())) {
+                        setContentView(R.layout.layout_login_password);     //----------- MUDA PARA O LAYOUT DA PASSWORD
+                        num = i;        //----- FAZ COM QUE NAO SEJA NECESSÁRIO VOLTAR A CORRER TODOS OS UTILIZADORES
+                    } else {
+                        txvAvisoLoginUsername.setText("O username introduzido não existe");
+                        txvAvisoLoginUsername.setTextColor(rgb(255, 0, 0));
+                    }
                 }
+            } else {
+                txfMailLogin.setVisibility(view.INVISIBLE);
+                txvAvisoLoginUsername.setText("Não existem utilizadores");
+                txvAvisoLoginUsername.setTextColor(rgb(255, 0, 0));
             }
-        }   else{
-            System.out.println("NAO EXISTEM UTILIZADORES");
         }
     }
 
     public void iniciarSessao(View view){
         txfPasswordLogin = (EditText) findViewById(R.id.campo_password_login);
+        txvAvisoLoginPassword = (TextView) findViewById(R.id.aviso_login_password);
 
         if (users.get(num).getPassword().equals(txfPasswordLogin.getText().toString())) {
 
@@ -92,7 +109,8 @@ public class Login extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else {
-            System.out.println("PASSWORD INVALIDA!!");
+            txvAvisoLoginPassword.setText("A palavra-passe introduzida está incorreta");
+            txvAvisoLoginPassword.setTextColor(rgb(255, 0, 0));
         }
     }
 

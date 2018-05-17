@@ -47,18 +47,26 @@
         android:inputType="textPersonName"
         />
 
+    <TextView
+        android:id="@+id/aviso_login_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textAlignment="center"
+        />
 
     <Button
         android:id="@+id/botao_entrar"
         android:layout_width="300dp"
         android:layout_height="60dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:layout_gravity="center"
         android:background="@drawable/button_background"
         android:onClick="avancarParaPassword"
         android:text="Seguinte"
         android:textColor="@android:color/white"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        />
 
     <Button
         android:id="@+id/botao_registar"
