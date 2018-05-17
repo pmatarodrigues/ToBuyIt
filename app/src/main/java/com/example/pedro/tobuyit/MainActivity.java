@@ -4,11 +4,13 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,11 +20,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    int num;
+    ArrayList<Utilizador> users = new ArrayList<>();
+
+    TextView usernameNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +58,14 @@ public class MainActivity extends AppCompatActivity
         android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction().replace(R.id.fragment_layout, entrada, entrada.getTag()).commit();
 
+
+        num = Integer.parseInt(getIntent().getStringExtra("USER_ATIVO"));
+        try {
+            users = lerUtilizadoresGuardados();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        
     }
 
     @Override
@@ -88,28 +110,69 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_aminhaconta) {
 
         } else if (id == R.id.nav_inicio) {
-            Entrada entrada = new Entrada();
+            Entrada fragment = new Entrada();
             android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-            manager.beginTransaction().replace(R.id.fragment_layout, entrada, entrada.getTag()).commit();
+            manager.beginTransaction().replace(R.id.fragment_layout, fragment, fragment.getTag()).commit();
 
         } else if (id == R.id.nav_produtos) {
+            FragmentProdutos fragment = new FragmentProdutos();
+            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.fragment_layout, fragment, fragment.getTag()).commit();
 
         } else if (id == R.id.nav_carrinho) {
+            FragmentCarrinho fragment = new FragmentCarrinho();
+            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.fragment_layout, fragment, fragment.getTag()).commit();
 
         } else if (id == R.id.nav_lista_compras) {
+            FragmentListaCompras fragment = new FragmentListaCompras();
+            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.fragment_layout, fragment, fragment.getTag()).commit();
 
         } else if (id == R.id.nav_ondeestamos) {
+            FragmentOndeEstamos fragment = new FragmentOndeEstamos();
+            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.fragment_layout, fragment, fragment.getTag()).commit();
 
         } else if (id == R.id.nav_contactos) {
+            FragmentContactos fragment = new FragmentContactos();
+            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.fragment_layout, fragment, fragment.getTag()).commit();
 
         } else if (id == R.id.nav_ajuda) {
+            FragmentAjuda fragment = new FragmentAjuda();
+            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.fragment_layout, fragment, fragment.getTag()).commit();
 
         } else if (id == R.id.nav_logout) {
-
+            users.get(num).setAtivo(false);
+            Intent intent = new Intent(this, Login.class);
+            startActivity(intent);
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+
+
+    // --------- LER UTILIZADORES GUARDADOS ------------------//
+    public ArrayList<Utilizador> lerUtilizadoresGuardados() throws ClassNotFoundException {
+        ArrayList<Utilizador> users = new ArrayList<>();
+        try {
+            FileInputStream fis = getApplicationContext().openFileInput("users.txt");
+            ObjectInputStream is = new ObjectInputStream(fis);
+            users = (ArrayList<Utilizador>) is.readObject();
+            is.close();
+            fis.close();
+
+            System.out.println("\nUTILIZADOR RECEBIDO!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return users;
     }
 }

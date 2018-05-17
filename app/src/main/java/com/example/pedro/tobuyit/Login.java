@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -33,13 +34,26 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
+        //--------------- RECEBER OS UTILIZADORES GUARDADOS NO FICHEIRO
         try {
             users = lerUtilizadoresGuardados();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+        // -------------- VERIFICA SE EXISTE ALGUM UTILIZADOR COM SESSAO INICIADA
+        for(int i = 0; i < users.size(); i++){
+            users.get(i).setAtivo(true);
+            if(users.get(i).getAtivo()){
+                num = i;
+                entrar();
+            } else{
+                setContentView(R.layout.activity_login);
+            }
+        }
+
+
     }
 
     //----------------------------- FUNCOES PARA BOTOES ----------------------------------//
@@ -51,6 +65,16 @@ public class Login extends AppCompatActivity {
     }
 
     //--------------------------- FUNCOES EM INICIAR SESSAO ----------------------------//
+    // ------ ESTA FUNÇÃO É CHAMADA CASO O UTILIZADOR JÁ TENHA SESSÃO INICIADA
+    public void entrar(){
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("USER_ATIVO", String.valueOf(num));
+        users.get(num).setAtivo(true);
+        startActivity(intent);
+        finish();
+    }
+
+
     public void avancarParaPassword(View view){
         txfMailLogin = (EditText) findViewById(R.id.campo_mail_login);
         txvAvisoLoginUsername = (TextView) findViewById(R.id.aviso_login_username);
@@ -84,13 +108,9 @@ public class Login extends AppCompatActivity {
         txvAvisoLoginPassword = (TextView) findViewById(R.id.aviso_login_password);
 
         if (users.get(num).getPassword().equals(txfPasswordLogin.getText().toString())) {
-
             //--------- mudar para a activity de entrada -----------//
             Intent intent = new Intent(this, MainActivity.class);
-
-            //Bundle b = new Bundle();
-            //intent.putExtras(b);
-
+            users.get(num).setAtivo(true);
             startActivity(intent);
             finish();
         } else {
@@ -135,7 +155,7 @@ public class Login extends AppCompatActivity {
     }
 
     //---------- LER DADOS DE FICHEIRO
-    private ArrayList<Utilizador> lerUtilizadoresGuardados() throws ClassNotFoundException {
+    public ArrayList<Utilizador> lerUtilizadoresGuardados() throws ClassNotFoundException {
 
         ArrayList<Utilizador> users = new ArrayList<>();
         try {
