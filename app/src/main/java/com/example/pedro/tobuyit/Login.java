@@ -34,8 +34,11 @@ public class Login extends AppCompatActivity {
 
     ArrayList<Utilizador> users = new ArrayList<>();
     EditText txfMailLogin;
+    EditText txfPasswordLogin;
     EditText txfUsernameRegistar;
     EditText txfPasswordRegistar;
+
+    int num; //vai permitir introduzir o login e a password em paginas diferentes
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,30 +61,39 @@ public class Login extends AppCompatActivity {
     }
 
     //--------------------------- FUNCOES EM INICIAR SESSAO ----------------------------//
-    public void iniciarSessao(View view){
+    public void avancarParaPassword(View view){
         txfMailLogin = (EditText) findViewById(R.id.campo_mail_login);
 
+        //------------ VERIFICA SE O USERNAME INTRODUZIDO EXISTE NA BASE DE DADOS
         if(users.size() > 0) {
             for (int i = 0; i < users.size(); i++) {
                 if (txfMailLogin.getText().toString().equals(users.get(i).getUsername())) {
-                    System.out.println("USERNAME VALIDO \n\n\n\n");
-
-                    //--------- mudar a activity de entrada -----------//
-                    Intent intent = new Intent(this, MainActivity.class);
-                    Bundle b = new Bundle();
-                    b.putString("nome", txfMailLogin.getText().toString());
-                    intent.putExtras(b);
-                    startActivity(intent);
-                    finish();
-
-                } else {
-                    System.out.println("USERNAME INVALIDO! \n\n\n\n\n");
+                    setContentView(R.layout.layout_login_password);     //----------- MUDA PARA O LAYOUT DA PASSWORD
+                    num = i;        //----- FAZ COM QUE NAO SEJA NECESSÁRIO VOLTAR A CORRER TODOS OS UTILIZADORES
+                }   else {
                 }
             }
-        }else{
+        }   else{
             System.out.println("NAO EXISTEM UTILIZADORES");
         }
+    }
 
+    public void iniciarSessao(View view){
+        txfPasswordLogin = (EditText) findViewById(R.id.campo_password_login);
+
+        if (users.get(num).getPassword().equals(txfPasswordLogin.getText().toString())) {
+
+            //--------- mudar para a activity de entrada -----------//
+            Intent intent = new Intent(this, MainActivity.class);
+
+            //Bundle b = new Bundle();
+            //intent.putExtras(b);
+
+            startActivity(intent);
+            finish();
+        } else {
+            System.out.println("PASSWORD INVALIDA!!");
+        }
     }
 
 
