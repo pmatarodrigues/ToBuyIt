@@ -1,5 +1,6 @@
 package com.example.pedro.tobuyit;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -20,7 +21,7 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 
-public class MainActivity extends Activity
+public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
@@ -38,6 +39,10 @@ public class MainActivity extends Activity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        Entrada entrada = new Entrada();
+        android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction().replace(R.id.fragment_layout, entrada, entrada.getTag()).commit();
 
     }
 
@@ -73,6 +78,7 @@ public class MainActivity extends Activity
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint("ResourceType")
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -82,6 +88,9 @@ public class MainActivity extends Activity
         if (id == R.id.nav_aminhaconta) {
 
         } else if (id == R.id.nav_inicio) {
+            Entrada entrada = new Entrada();
+            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.fragment_layout, entrada, entrada.getTag()).commit();
 
         } else if (id == R.id.nav_produtos) {
 

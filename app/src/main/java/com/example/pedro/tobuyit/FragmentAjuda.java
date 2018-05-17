@@ -8,11 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class Entrada extends Fragment {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class FragmentAjuda extends Fragment {
 
 
-
-    public Entrada() {
+    public FragmentAjuda() {
         // Required empty public constructor
     }
 
@@ -21,7 +23,7 @@ public class Entrada extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_entrada, container, false);
+        return inflater.inflate(R.layout.fragment_ajuda, container, false);
     }
 
 }
