@@ -68,7 +68,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/home/pedro/EI/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_add_shopping_cart_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/home/pedro/EI/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/alert/ic_warning_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -78,7 +78,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="icon_adicionar_carrinho" />
+                            <entry key="outputName" value="icon_aviso" />
                             <entry key="sourceFile" value="$USER_HOME$/Transferências/icon_listadecompras.svg" />
                           </map>
                         </option>

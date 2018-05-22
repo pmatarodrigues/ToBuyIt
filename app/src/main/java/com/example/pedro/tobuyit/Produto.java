@@ -7,10 +7,21 @@ public class Produto implements Serializable{
     private int id;
     private String nome;
     private float preco;
+    private int imagem;
     private Boolean emPromocao;
     private String aviso;
     private String curiosidade;
     private Boolean esgotado;
+
+    public Produto(int id, String nome, float preco, int imagem, Boolean emPromocao, String aviso, String curiosidade) {
+        this.id = id;
+        this.nome = nome;
+        this.preco = preco;
+        this.imagem = imagem;
+        this.emPromocao = emPromocao;
+        this.aviso = aviso;
+        this.curiosidade = curiosidade;
+    }
 
     public int getId() {
         return id;
@@ -66,5 +77,13 @@ public class Produto implements Serializable{
 
     public void setEsgotado(Boolean esgotado) {
         this.esgotado = esgotado;
+    }
+
+    public int getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(int imagem) {
+        this.imagem = imagem;
     }
 }

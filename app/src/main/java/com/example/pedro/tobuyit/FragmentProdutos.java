@@ -1,17 +1,34 @@
 package com.example.pedro.tobuyit;
 
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class FragmentProdutos extends Fragment {
+
+    MainActivity main = new MainActivity();
 
 
     public FragmentProdutos() {
@@ -23,7 +40,11 @@ public class FragmentProdutos extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_produtos, container, false);
+        View view = inflater.inflate(R.layout.fragment_produtos, container, false);
+
+        main.addProdutosLista(view);
+
+        return view;
     }
 
 }
