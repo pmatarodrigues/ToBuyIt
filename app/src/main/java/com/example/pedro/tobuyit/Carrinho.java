@@ -7,6 +7,10 @@ public class Carrinho {
     private ArrayList<Produto> produtos;
     private float precoTotal;
 
+    public Carrinho() {
+        this.produtos = produtos;
+    }
+
     public ArrayList<Produto> getProdutos() {
         return produtos;
     }
@@ -21,5 +25,13 @@ public class Carrinho {
 
     public void setPrecoTotal(float precoTotal) {
         this.precoTotal = precoTotal;
+    }
+
+    public int getTotalProdutos(){
+        return produtos.size();
+    }
+
+    public void addProduto(Produto p){
+        produtos.add(p);
     }
 }

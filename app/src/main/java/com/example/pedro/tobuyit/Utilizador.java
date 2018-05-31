@@ -20,6 +20,7 @@ public class Utilizador implements Serializable {
     private Boolean ativo;
     private String morada;
     private ArrayList<ListaCompras> listasDeCompras;
+    private Carrinho carrinho;
 
     public Utilizador(Boolean ativo) {
         this.ativo = ativo;
@@ -65,5 +66,11 @@ public class Utilizador implements Serializable {
         this.listasDeCompras = listasDeCompras;
     }
 
+    public Carrinho getCarrinho() {
+        return carrinho;
+    }
 
+    public void setCarrinho(Carrinho carrinho) {
+        this.carrinho = carrinho;
+    }
 }

@@ -42,6 +42,7 @@
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
                 android:textSize="20sp"
+                android:textStyle="bold"
                 android:gravity="center"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
@@ -81,9 +82,6 @@
     </android.support.v7.widget.RecyclerView>
 
     </android.support.v4.widget.NestedScrollView>
-
-
-
 
 
 </android.support.design.widget.CoordinatorLayout>

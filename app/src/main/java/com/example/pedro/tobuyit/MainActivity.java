@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -24,15 +25,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,12 +50,16 @@ public class MainActivity extends AppCompatActivity
     int num;
     ArrayList<Utilizador> users = new ArrayList<>();
     public ArrayList<Produto> produtos = new ArrayList<>();
+    ArrayList<Produto> produtosNoCarrinho = new ArrayList<>();
+    ArrayList<ListaCompras> listaCompras = new ArrayList<>();
+
 
     private TextView usernameNav;
     private ListView listViewProdutos;
 
     private ProdutoAdapter adapter;
     private Dialog popup;
+    private Produto produtoAAdicionarAoCarrinho;
 
 
     @Override
@@ -72,8 +83,7 @@ public class MainActivity extends AppCompatActivity
         manager.beginTransaction().replace(R.id.fragment_layout, entrada, entrada.getTag()).commit();
 
         popup = new Dialog(this);
-
-
+                    // ---------- RECEBE O UTILIZADOR QUE INICIOU SESSÃO
         num = Integer.parseInt(getIntent().getStringExtra("USER_ATIVO"));
         try {
             users = lerUtilizadoresGuardados();
@@ -81,8 +91,8 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
+        users.get(num).setListasDeCompras(listaCompras);
         addProdutos();
-
     }
 
     @Override
@@ -179,6 +189,13 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    public ArrayList<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public ArrayList<Produto> getProdutosNoCarrinho() {
+        return produtosNoCarrinho;
+    }
 
     // --------- LER UTILIZADORES GUARDADOS ------------------//
     public ArrayList<Utilizador> lerUtilizadoresGuardados() throws ClassNotFoundException {
@@ -197,53 +214,10 @@ public class MainActivity extends AppCompatActivity
         return users;
     }
 
-
-    public void abrirPopupProduto(View view){
-        TextView fecharPopup;
-        TextView titulo;
-        TextView aviso;
-        TextView tituloBotao;
-        TextView curiosidade;
-        ImageView imagem;
-
-        popup.setContentView(R.layout.popup_produto);
-        fecharPopup = (TextView) popup.findViewById(R.id.fechar_popup);
-        titulo = (TextView) popup.findViewById(R.id.popup_titulo);
-        aviso = (TextView) popup.findViewById(R.id.popup_aviso);
-        curiosidade = (TextView) popup.findViewById(R.id.popup_curiosidade);
-        imagem = (ImageView) popup.findViewById(R.id.popup_imagem);
-        tituloBotao = (TextView) view.findViewById(R.id.lista_produto_nome);
-
-        System.out.println(produtos.size());
-
-        try{
-
-            for(int i = 0; i < produtos.size(); i++) {
-                if(produtos.get(i).getNome().equals(tituloBotao.getText())){
-                    titulo.setText(produtos.get(i).getNome());
-                    aviso.setText(produtos.get(i).getAviso());
-                    curiosidade.setText(produtos.get(i).getCuriosidade());
-                    imagem.setImageResource(produtos.get(i).getImagem());
-                }
-            }
-        } catch(Exception e){
-            System.out.println("ERRO AQUI");
-        }
-
-        fecharPopup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popup.dismiss();
-            }
-        });
-        popup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        popup.show();
-    }
-
-
+    // ----------------------------------------------- FUNÇÕES DA LISTA DE PRODUTOS ---------------------------------------------- //
     // ----- fazer produtos aparecerem na lista de produtos
     public void addProdutosLista(View view){
-        addProdutos();
+        //addProdutos();
         // ---------- DIRECIONAR ADAPTER PARA O RECYCLER VIEW -----------//
         ProdutoAdapter adapter = new ProdutoAdapter(produtos);
         RecyclerView myView = (RecyclerView) view.findViewById(R.id.recycler_view_produtos);
@@ -255,17 +229,140 @@ public class MainActivity extends AppCompatActivity
         myView.setLayoutManager(llm);
     }
 
+
     // ------- ADICIONAR PRODUTOS À LISTA DE PRODUTOS
     public void addProdutos(){
-        produtos.add(new Produto(produtos.size()-1,"Maçã Golden", (float) 3.30, R.drawable.imagem_produtos_maca, false,"Este produto contém gluten", "Uma maçã por dia não sabe o bem que lhe fazia!"));
-        produtos.add(new Produto(produtos.size()-1,"Bebida Energética Monster", (float) 3.30, R.drawable.imagem_produtos_bebidaenergetica_monster, false,"Não recomendado para diabéticos", "Este produto é energético"));
-        produtos.add(new Produto(produtos.size()-1,"Coca-Cola Lata", (float) 3.30, R.drawable.imagem_produtos_cocacola, false,"A maça esta podre", "A Maça da pra comer?"));
-        produtos.add(new Produto(produtos.size()-1,"Compal", (float) 3.30, R.drawable.imagem_produtos_compal, false,"A maça esta podre", "A Maça da pra comer?"));
-        produtos.add(new Produto(produtos.size()-1,"Leite Achocolatado Agros", (float) 3.30, R.drawable.imagem_produtos_leiteachocolatado_agros, false,"A maça esta podre", "A Maça da pra comer?"));
-        produtos.add(new Produto(produtos.size()-1,"Quejo Limianos", (float) 3.30, R.drawable.imagem_produtos_queijo_limianos, false,"A maça esta podre", "A Maça da pra comer?"));
-        produtos.add(new Produto(produtos.size()-1,"Pizza Congelada", (float) 3.30, R.drawable.imagem_produtos_pizza, false,"A maça esta podre", "A Maça da pra comer?"));
-        produtos.add(new Produto(produtos.size()-1,"Pudim Baunilha", (float) 3.30, R.drawable.imagem_produtos_pudim_baunilha, false,"A maça esta podre", "A Maça da pra comer?"));
-        produtos.add(new Produto(produtos.size()-1,"Queijo Cabra", (float) 3.30, R.drawable.imagem_produtos_queijo_cabra, false,"A maça esta podre", "A Maça da pra comer?"));
+        produtos.add(new Produto(produtos.size()+1,"Maçã Golden", (float) 3.30, R.drawable.imagem_produtos_maca, false,"Este produto contém gluten", "Uma maçã por dia não sabe o bem que lhe fazia!"));
+        produtos.add(new Produto(produtos.size()+1,"Bebida Energética Monster", (float) 3.30, R.drawable.imagem_produtos_bebidaenergetica_monster, false,"Não recomendado para diabéticos", "Este produto é energético"));
+        produtos.add(new Produto(produtos.size()+1,"Coca-Cola Lata", (float) 3.30, R.drawable.imagem_produtos_cocacola, true,"A maça esta podre", "A Maça da pra comer?"));
+        produtos.add(new Produto(produtos.size()+1,"Compal", (float) 3.30, R.drawable.imagem_produtos_compal, false,"A maça esta podre", "A Maça da pra comer?"));
+        produtos.add(new Produto(produtos.size()+1,"Leite Achocolatado Agros", (float) 3.30, R.drawable.imagem_produtos_leiteachocolatado_agros, false,"A maça esta podre", "A Maça da pra comer?"));
+        produtos.add(new Produto(produtos.size()+1,"Quejo Limianos", (float) 3.30, R.drawable.imagem_produtos_queijo_limianos, false,"A maça esta podre", "A Maça da pra comer?"));
+        produtos.add(new Produto(produtos.size()+1,"Pizza Congelada", (float) 3.30, R.drawable.imagem_produtos_pizza, true,"A maça esta podre", "A Maça da pra comer?"));
+        produtos.add(new Produto(produtos.size()+1,"Pudim Baunilha", (float) 3.30, R.drawable.imagem_produtos_pudim_baunilha, false,"A maça esta podre", "A Maça da pra comer?"));
+        produtos.add(new Produto(produtos.size()+1,"Queijo Cabra", (float) 3.30, R.drawable.imagem_produtos_queijo_cabra, false,"A maça esta podre", "A Maça da pra comer?"));
+    }
+
+    // ------------------- ABRIR POPUP DE PRODUTO ---------------------- //
+    public void abrirPopupProduto(View view){
+        TextView fecharPopup;
+        TextView titulo;
+        TextView aviso;
+        TextView tituloBotao;
+        TextView curiosidade;
+        ImageView imagem;
+        // ------------- associar às views
+        popup.setContentView(R.layout.popup_produto);
+        fecharPopup = (TextView) popup.findViewById(R.id.fechar_popup);
+        titulo = (TextView) popup.findViewById(R.id.popup_titulo);
+        aviso = (TextView) popup.findViewById(R.id.popup_aviso);
+        curiosidade = (TextView) popup.findViewById(R.id.popup_curiosidade);
+        imagem = (ImageView) popup.findViewById(R.id.popup_imagem);
+        tituloBotao = (TextView) view.findViewById(R.id.lista_produto_nome);
+
+        try{
+            // -------- verificar qual o produto que foi clicado
+            for(int i = 0; i < produtos.size(); i++) {
+                if(produtos.get(i).getNome().equals(tituloBotao.getText().toString())){
+                    produtoAAdicionarAoCarrinho = produtos.get(i);
+                    titulo.setText(produtos.get(i).getNome());
+                    aviso.setText(produtos.get(i).getAviso());
+                    curiosidade.setText(produtos.get(i).getCuriosidade());
+                    imagem.setImageResource(produtos.get(i).getImagem());
+                }
+            }
+        } catch(Exception e){
+            System.out.println("ERRO A VERIFICAR PRODUTO CLICADO");
+        }
+        // ---------------- BOTAO DE FECHAR POPUP
+        fecharPopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup.dismiss();
+            }
+        });
+        popup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popup.show();
+    }
+
+
+    // ------------------- FUNÇÕES DO CARRINHO ------------------------- //
+    public void adicionarProdutoAoCarrinho(View view) throws IOException {
+        produtosNoCarrinho.add(produtoAAdicionarAoCarrinho);
+        //users.get(num).getCarrinho().addProduto(findProduto(2));
+        //System.out.println(users.get(num).getUsername());
+        Toast.makeText(this, "'" + produtoAAdicionarAoCarrinho.getNome() + "' adicionado ao carrinho!", Toast.LENGTH_SHORT).show();
+    }
+
+    public void carregarCarrinho(View view) throws ClassNotFoundException {
+
+        TextView textoCarrinhoVazio = view.findViewById(R.id.carrinho_vazio_texto);
+
+
+            if (produtosNoCarrinho.size() == 0) {
+                textoCarrinhoVazio.setVisibility(View.VISIBLE);
+           } else {
+                textoCarrinhoVazio.setVisibility(View.INVISIBLE);
+
+                CarrinhoAdapter adapter = new CarrinhoAdapter(produtosNoCarrinho);
+                RecyclerView myView = (RecyclerView) view.findViewById(R.id.recycler_view_carrinho);
+                myView.setHasFixedSize(true);
+                myView.setAdapter(adapter);
+                // ------------- UTILIZAR O LAYOUT MANAGER ------------- //
+                LinearLayoutManager llm = new LinearLayoutManager(this);
+                llm.setOrientation(LinearLayoutManager.VERTICAL);
+                myView.setLayoutManager(llm);
+            }
+    }
+
+    public void adicionarProdutoAoCarrinhoDaLista(View view, String nomeProduto) throws IOException {
+
+
+        try{
+            // -------- verificar qual o produto que foi clicado
+            for(int i = 0; i < produtos.size(); i++) {
+                if(produtos.get(i).getNome().equals(nomeProduto)) {
+                    produtoAAdicionarAoCarrinho = produtos.get(i);
+                }
+            }
+        } catch(Exception e){
+            System.out.println("ERRO A VERIFICAR PRODUTO CLICADO");
+        }
+        adicionarProdutoAoCarrinho(view);
+    }
+
+    public void removerProdutoDoCarrinho(View view){
+
+    }
+
+    public void adicionarTextoListaCompras(View view) throws IOException, ClassNotFoundException {
+        //Button botaoAdicionarALista = (Button) findViewById(R.id.botao_adicionar_compra);
+        EditText textoCompra = (EditText) findViewById(R.id.adicionar_compra_nome);
+
+        ListaCompras compra = new ListaCompras(listaCompras.size() + 1, textoCompra.getText().toString(), false);
+        users.get(num).getListasDeCompras().add(compra);
+
+        for(int i = 0; i < users.get(num).getListasDeCompras().size(); i++){
+            System.out.println("COMPRAS: " + users.get(num).getListasDeCompras().get(i).getTexto());
+        }
+
+        gravarUtilizador(users);
+    }
+
+
+    private void gravarUtilizador(ArrayList<Utilizador> users) throws IOException {
+        Context context = this.getApplicationContext();
+        try{
+            FileOutputStream fos = context.openFileOutput("users.txt", Context.MODE_PRIVATE);
+            ObjectOutputStream os = new ObjectOutputStream(fos);
+            os.writeObject(users);
+            os.close();
+            fos.close();
+
+            System.out.println("\n\nUTILIZADOR GUARDADO!");
+        }catch (IOException e){
+            Log.e("Exception", "Erro ao gravar para ficheiro: " + e.toString());
+        }
     }
 
 }

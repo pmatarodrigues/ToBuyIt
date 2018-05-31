@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
-    android:layout_height="380dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@android:color/white"
     android:layout_gravity="center"
@@ -80,6 +80,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/icon_curiosidade"
+                android:layout_marginTop="5dp"
                 />
 
             <TextView
@@ -95,6 +96,17 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/popup_botao_adicionar_ao_carrinho"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:text="Adicionar ao carrinho"
+        android:textColor="@android:color/white"
+        android:onClick="adicionarProdutoAoCarrinho"
+        />
 
 
 

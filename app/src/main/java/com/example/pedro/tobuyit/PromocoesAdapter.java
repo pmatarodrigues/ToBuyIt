@@ -22,21 +22,21 @@ import org.w3c.dom.Text;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHolder>{
+public class PromocoesAdapter extends RecyclerView.Adapter<PromocoesAdapter.MyViewHolder>{
 
     Activity context;
     ArrayList<Produto> produtos;
     private static LayoutInflater inflater = null;
 
 
-    public ProdutoAdapter(ArrayList<Produto> produtos){
+    public PromocoesAdapter(ArrayList<Produto> produtos){
         this.produtos = produtos;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View listItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_lista_produtos, parent, false);
+        View listItem = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_lista_promocoes, parent, false);
         return new MyViewHolder(listItem);
     }
 
@@ -74,12 +74,12 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
         private ImageView iconPromocoes;
         private MyViewHolder(View itemView){
             super(itemView);
-            nomeProduto = (TextView)itemView.findViewById(R.id.lista_produto_nome);
-            precoProduto = (TextView) itemView.findViewById(R.id.lista_produto_preco);
-            imagemProduto = (ImageView) itemView.findViewById(R.id.lista_produto_imagem);
+            nomeProduto = (TextView)itemView.findViewById(R.id.lista_promocoe_nome);
+            precoProduto = (TextView) itemView.findViewById(R.id.lista_promocoes_preco);
+            imagemProduto = (ImageView) itemView.findViewById(R.id.lista_promocoes_imagem);
 
-            iconAddCarrinho = (ImageView) itemView.findViewById(R.id.lista_produto_add_carrinho);
-            iconPromocoes = (ImageView) itemView.findViewById(R.id.lista_produtos_icon_promocao);
+            iconAddCarrinho = (ImageView) itemView.findViewById(R.id.lista_promocoes_add_carrinho);
+            iconPromocoes = (ImageView) itemView.findViewById(R.id.lista_promocoes_icon_promocao);
         }
     }
 

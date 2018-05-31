@@ -6,10 +6,14 @@ import java.util.ArrayList;
 public class ListaCompras implements Serializable{
 
     private int id;
-    private String nome;
-    private ArrayList<Produto> produtos;
-    private int idUtilizador;
+    private String texto;
+    private Boolean concluido = false;
 
+    public ListaCompras(int id, String texto, Boolean concluido) {
+        this.id = id;
+        this.texto = texto;
+        this.concluido = concluido;
+    }
 
     public int getId() {
         return id;
@@ -19,27 +23,20 @@ public class ListaCompras implements Serializable{
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getTexto() {
+        return texto;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setTexto(String nome) {
+        this.texto = texto;
     }
 
-    public ArrayList<Produto> getProdutos() {
-        return produtos;
+    public Boolean getConcluido() {
+        return concluido;
     }
 
-    public void setProdutos(ArrayList<Produto> produtos) {
-        this.produtos = produtos;
+    public void setConcluido(Boolean concluido) {
+        this.concluido = concluido;
     }
 
-    public int getIdUtilizador() {
-        return idUtilizador;
-    }
-
-    public void setIdUtilizador(int idUtilizador) {
-        this.idUtilizador = idUtilizador;
-    }
 }

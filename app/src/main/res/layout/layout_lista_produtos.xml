@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -45,29 +46,47 @@
                 android:orientation="vertical"
                 >
 
-                <TextView
-                    android:id="@+id/lista_produto_preco"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="0.00€"
-                    android:textAlignment="viewEnd"
-                    android:paddingTop="20dp"
-                    android:paddingEnd="30dp"
-                    android:textSize="15sp"
-                    android:textColor="@android:color/black"
-                    android:layout_marginStart="30dp"
-                    />
+                    android:orientation="horizontal"
+                    >
+
+                    <TextView
+                        android:id="@+id/lista_produto_preco"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00.00€"
+                        android:paddingTop="20dp"
+                        android:paddingEnd="10dp"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/black"
+                        />
+
+                    <ImageView
+                        android:id="@+id/lista_produtos_icon_promocao"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/icon_descontos"
+                        android:layout_marginTop="20dp"
+                        />
+
+                </LinearLayout>
+
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="30dp"
-                    android:src="@drawable/icon_adicionar_carrinho"
-                    />
+                        android:id="@+id/lista_produto_add_carrinho"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:src="@drawable/icon_adicionar_carrinho"
+                        android:onClick="adicionarProdutoAoCarrinhoDaLista"
+                        />
 
             </LinearLayout>
-
-        </LinearLayout>
+            </LinearLayout>
 
 </android.support.v7.widget.CardView>

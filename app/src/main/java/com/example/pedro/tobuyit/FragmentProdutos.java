@@ -1,6 +1,6 @@
 package com.example.pedro.tobuyit;
 
-
+import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -28,13 +28,11 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
  */
 public class FragmentProdutos extends Fragment {
 
-    MainActivity main = new MainActivity();
-
+    //MainActivity main = new MainActivity();
 
     public FragmentProdutos() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,9 +40,13 @@ public class FragmentProdutos extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_produtos, container, false);
 
+        MainActivity main = (MainActivity)getActivity();
+
         main.addProdutosLista(view);
+        System.out.println("Há " + main.produtos.size() + "produtos");
 
         return view;
     }
+
 
 }

@@ -162,7 +162,7 @@ public class Login extends AppCompatActivity {
 
         Context context = this.getApplicationContext();
         try{
-            FileOutputStream fos = context.openFileOutput("users.txt", MODE_PRIVATE);
+            FileOutputStream fos = context.openFileOutput("users.txt", Context.MODE_PRIVATE);
             ObjectOutputStream os = new ObjectOutputStream(fos);
             os.writeObject(users);
             os.close();
