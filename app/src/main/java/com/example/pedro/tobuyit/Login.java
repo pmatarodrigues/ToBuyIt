@@ -26,6 +26,8 @@ public class Login extends AppCompatActivity {
     EditText txfPasswordLogin;
     EditText txfUsernameRegistar;
     EditText txfPasswordRegistar;
+    EditText txfConfirmarPasswordRegistar;
+    TextView txvAvisoRegistar;
     TextView txvAvisoLoginUsername;
     TextView txvAvisoLoginPassword;
 
@@ -142,15 +144,36 @@ public class Login extends AppCompatActivity {
     public void registar(View view) throws IOException {
         txfUsernameRegistar = findViewById(R.id.campo_username_registar);
         txfPasswordRegistar = findViewById(R.id.campo_pass_registar);
+        txfConfirmarPasswordRegistar = findViewById(R.id.campo_confpass_registar);
+        txvAvisoRegistar = findViewById(R.id.aviso_registar);
 
         Utilizador user = new Utilizador(false);
-        user.setUsername(txfUsernameRegistar.getText().toString());
-        user.setPassword(txfPasswordRegistar.getText().toString());
-        users.add(user);
 
-        gravarUtilizador(users);
-        //volta para a pagina de login
-        setContentView(R.layout.activity_login);
+        if(txfUsernameRegistar.getText().toString().length() < 5){
+            txvAvisoRegistar.setText("O nome de utilizador tem que ter pelo menos 5 letras");
+            txvAvisoRegistar.setTextColor(rgb(255, 0, 0));
+        }
+        else if(txfPasswordRegistar.getText().length() == 0){
+            txvAvisoRegistar.setText("Introduza uma password");
+            txvAvisoRegistar.setTextColor(rgb(255, 0, 0));
+        }
+        else if(!txfPasswordRegistar.getText().toString().equals(txfConfirmarPasswordRegistar.getText().toString())){
+            txvAvisoRegistar.setText("As passwords nao coincidem");
+            txvAvisoRegistar.setTextColor(rgb(255, 0, 0));
+        }
+        else if(txfPasswordRegistar.getText().toString().length() < 5){
+            txvAvisoRegistar.setText("A password tem que ter pelo menos 4 digitos");
+            txvAvisoRegistar.setTextColor(rgb(255, 0, 0));
+        }
+        else {
+            user.setUsername(txfUsernameRegistar.getText().toString());
+            user.setPassword(txfPasswordRegistar.getText().toString());
+            users.add(user);
+
+            gravarUtilizador(users);
+            //volta para a pagina de login
+            setContentView(R.layout.activity_login);
+        }
     }
 
 

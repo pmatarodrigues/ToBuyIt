@@ -44,6 +44,7 @@
 
 
     <Spinner
+        android:id="@+id/popup_carrinho_opcaocompra"
         android:layout_width="250dp"
         android:layout_height="40dp"
         android:drawSelectorOnTop="true"
@@ -60,6 +61,42 @@
         android:layout_gravity="center"
         android:textSize="40sp"
         />
+    <TextView
+        android:id="@+id/popup_texto_introduzasupermercado"
+        android:layout_marginTop="20dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Selecione o supermercado:"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        />
+
+    <Spinner
+        android:id="@+id/popup_opcaosupermercado"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:entries="@array/opcoes_supermercado"
+        android:visibility="gone"
+        />
+
+    <TextView
+        android:id="@+id/popup_texto_introduzamorada"
+        android:layout_marginTop="20dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Introduza a morada:"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        />
+
+    <EditText
+        android:id="@+id/popup_field_introduzamorada"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        />
 
     <Button
         android:id="@+id/popup_botao_adicionar_ao_carrinho"
@@ -67,9 +104,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
+        android:text="Confirmar"
+        android:textColor="@android:color/white"
+        android:onClick="concluirCompra"
+        />
+
+    <Button
+        android:id="@+id/popup_botao_adicionar_ao_carrinho_tiposel"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
         android:text="Concluir"
         android:textColor="@android:color/white"
-        android:onClick="adicionarProdutoAoCarrinho"
+        android:onClick="compraConfirmada"
+        android:visibility="gone"
         />
 
 

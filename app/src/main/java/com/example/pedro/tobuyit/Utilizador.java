@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -21,6 +22,7 @@ public class Utilizador implements Serializable {
     private String morada;
     private ArrayList<ListaCompras> listasDeCompras;
     private Carrinho carrinho;
+    private ArrayList<Compra> comprasRecentes;
 
     public Utilizador(Boolean ativo) {
         this.ativo = ativo;
@@ -72,5 +74,13 @@ public class Utilizador implements Serializable {
 
     public void setCarrinho(Carrinho carrinho) {
         this.carrinho = carrinho;
+    }
+
+    public ArrayList<Compra> getComprasRecentes() {
+        return comprasRecentes;
+    }
+
+    public void setComprasRecentes(ArrayList<Compra> comprasRecentes) {
+        this.comprasRecentes = comprasRecentes;
     }
 }

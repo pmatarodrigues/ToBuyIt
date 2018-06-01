@@ -43,7 +43,7 @@ public class ListaComprasAdapter extends RecyclerView.Adapter<ListaComprasAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
         holder.compra.setText(listaCompras.get(position).getTexto());
         if(listaCompras.get(position).getConcluido()){
             holder.compra.setTextColor(Color.parseColor("#B0BEC5"));

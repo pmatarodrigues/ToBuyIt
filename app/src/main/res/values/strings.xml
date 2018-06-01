@@ -23,4 +23,11 @@
         <item>Receber em Casa</item>
     </string-array>
 
+    <string-array name="opcoes_supermercado">
+        <item>Espinho</item>
+        <item>Matosinhos</item>
+        <item>Odivelas</item>
+        <item>Peniche</item>
+    </string-array>
+
 </resources>

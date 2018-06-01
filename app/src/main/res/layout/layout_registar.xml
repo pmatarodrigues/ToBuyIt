@@ -70,6 +70,14 @@
         android:inputType="textPassword"
         />
 
+    <TextView
+        android:id="@+id/aviso_registar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textAlignment="center"
+        />
+
     <Button
         android:id="@+id/botao_voltar_ao_login"
         android:layout_width="match_parent"
