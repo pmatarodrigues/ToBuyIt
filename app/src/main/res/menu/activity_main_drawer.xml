@@ -20,7 +20,7 @@
             android:title="Produtos" />
         <item
             android:id="@+id/nav_promocoes"
-            android:icon="@drawable/icon_promocoes"
+            android:icon="@drawable/icon_descontos"
             android:title="Promoções" />
         <item
             android:id="@+id/nav_lista_compras"

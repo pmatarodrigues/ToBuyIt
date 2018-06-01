@@ -31,17 +31,12 @@ import java.util.ArrayList;
  */
 public class FragmentCarrinho extends Fragment {
 
-
-      //MainActivity main = new MainActivity();
-    //MainActivity main = (MainActivity)getActivity();
     ArrayList<Produto> produtosAConfirmar = new ArrayList<>();
 
 
     public FragmentCarrinho() {
         // Required empty public constructor
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,8 +62,6 @@ public class FragmentCarrinho extends Fragment {
         }
         precoCarrinho.setText(precoTotalCarrinho + "€");
 
-
-        // Inflate the layout for this fragment
         return view;
     }
 

@@ -132,6 +132,7 @@
             android:background="@android:color/white"
             android:layout_gravity="center"
             android:text="Confirmar compra"
+            android:onClick="concluirCarrinho"
             />
 
     </LinearLayout>

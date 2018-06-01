@@ -158,7 +158,7 @@ public class Login extends AppCompatActivity {
 
     //--------------------------------------------- FICHEIROS ------------------------------------------------
     //------------ GRAVAR DADOS EM FICHEIRO
-    private void gravarUtilizador(ArrayList<Utilizador> users) throws IOException {
+    public void gravarUtilizador(ArrayList<Utilizador> users) throws IOException {
 
         Context context = this.getApplicationContext();
         try{

@@ -41,11 +41,6 @@ public class FragmentListaCompras extends Fragment {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         myView.setLayoutManager(llm);
 
-        System.out.println(main.users.get(num).getListasDeCompras().size());
-
-        for(int i = 0; i < main.users.size(); i++){
-            System.out.println(main.users.get(i).getUsername());
-        }
 
         return view;
     }

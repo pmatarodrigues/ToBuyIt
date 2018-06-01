@@ -91,7 +91,13 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-        users.get(num).setListasDeCompras(listaCompras);
+
+
+        View hview = navigationView.inflateHeaderView(R.layout.nav_header_main);
+
+        usernameNav = (TextView) hview.findViewById(R.id.username_nav);
+        usernameNav.setText(users.get(num).getUsername());
+
         addProdutos();
     }
 
@@ -346,23 +352,55 @@ public class MainActivity extends AppCompatActivity
             System.out.println("COMPRAS: " + users.get(num).getListasDeCompras().get(i).getTexto());
         }
 
-        gravarUtilizador(users);
+        try {
+            gravarUtilizador(users);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
-    private void gravarUtilizador(ArrayList<Utilizador> users) throws IOException {
-        Context context = this.getApplicationContext();
+    public void gravarUtilizador(ArrayList<Utilizador> users) throws IOException {
+
         try{
-            FileOutputStream fos = context.openFileOutput("users.txt", Context.MODE_PRIVATE);
+            FileOutputStream fos = this.openFileOutput("users.txt", Context.MODE_PRIVATE);
             ObjectOutputStream os = new ObjectOutputStream(fos);
             os.writeObject(users);
             os.close();
             fos.close();
 
             System.out.println("\n\nUTILIZADOR GUARDADO!");
+            System.out.println(users.get(num).getListasDeCompras().size());
         }catch (IOException e){
             Log.e("Exception", "Erro ao gravar para ficheiro: " + e.toString());
         }
     }
 
+    public void concluirCarrinho(View view){
+        TextView fecharPopup;
+        TextView popupCarrinhoPreco;
+        
+        float precoTotalCarrinho = 0;
+
+        for (int i = 0; i< produtosNoCarrinho.size(); i++) {
+            // -------- recebe o preço dos produtos e adiciona ao total
+            precoTotalCarrinho += produtosNoCarrinho.get(i).getPreco();
+        }
+
+        popup.setContentView(R.layout.popup_concluir_carrinho);
+        popupCarrinhoPreco = (TextView) popup.findViewById(R.id.popup_carrinho_preco);
+        System.out.println(precoTotalCarrinho);
+        fecharPopup = (TextView) popup.findViewById(R.id.fechar_popup);
+        popupCarrinhoPreco.setText(precoTotalCarrinho + "€");
+
+        fecharPopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup.dismiss();
+            }
+        });
+
+        popup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popup.show();
+    }
 }
