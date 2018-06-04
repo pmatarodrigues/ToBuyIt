@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.io.FileInputStream;
@@ -30,6 +31,8 @@ public class Login extends AppCompatActivity {
     TextView txvAvisoRegistar;
     TextView txvAvisoLoginUsername;
     TextView txvAvisoLoginPassword;
+    Spinner spnPerguntaSeguranca;
+    EditText respostaPerguntaSeguranca;
 
     Boolean existe = false;
     int num; //vai permitir introduzir o login e a password em paginas diferentes
@@ -146,10 +149,12 @@ public class Login extends AppCompatActivity {
         txfPasswordRegistar = findViewById(R.id.campo_pass_registar);
         txfConfirmarPasswordRegistar = findViewById(R.id.campo_confpass_registar);
         txvAvisoRegistar = findViewById(R.id.aviso_registar);
+        spnPerguntaSeguranca = findViewById(R.id.registar_perguntaseguranca);
+        respostaPerguntaSeguranca = findViewById(R.id.registar_perguntaseguranca_resposta);
 
         Utilizador user = new Utilizador(false);
 
-        if(txfUsernameRegistar.getText().toString().length() < 5){
+        if(txfUsernameRegistar.getText().toString().length() < 4){
             txvAvisoRegistar.setText("O nome de utilizador tem que ter pelo menos 5 letras");
             txvAvisoRegistar.setTextColor(rgb(255, 0, 0));
         }
@@ -161,13 +166,20 @@ public class Login extends AppCompatActivity {
             txvAvisoRegistar.setText("As passwords nao coincidem");
             txvAvisoRegistar.setTextColor(rgb(255, 0, 0));
         }
-        else if(txfPasswordRegistar.getText().toString().length() < 5){
+        else if(txfPasswordRegistar.getText().toString().length() < 4){
             txvAvisoRegistar.setText("A password tem que ter pelo menos 4 digitos");
+            txvAvisoRegistar.setTextColor(rgb(255, 0, 0));
+        }
+        else if(respostaPerguntaSeguranca.getText().length() < 2){
+            txvAvisoRegistar.setText("Introduza uma resposta válida à pergunta de segurança");
             txvAvisoRegistar.setTextColor(rgb(255, 0, 0));
         }
         else {
             user.setUsername(txfUsernameRegistar.getText().toString());
             user.setPassword(txfPasswordRegistar.getText().toString());
+            user.setPerguntaSeguranca(spnPerguntaSeguranca.getSelectedItem().toString());
+            user.setRespostaPerguntaSeguranca(respostaPerguntaSeguranca.getText().toString());
+
             users.add(user);
 
             gravarUtilizador(users);
@@ -176,8 +188,27 @@ public class Login extends AppCompatActivity {
         }
     }
 
+    public void irParaRecuperarPassword(View view){
+        setContentView(R.layout.layout_login_recuperarpassword);
+    }
 
+    public void recuperarPalavraPasse(View view){
+        spnPerguntaSeguranca = findViewById(R.id.recuperarpassword_perguntaseguranca);
+        respostaPerguntaSeguranca = findViewById(R.id.recuperarpassword_perguntaseguranca_resposta);
+        txvAvisoRegistar = findViewById(R.id.aviso_recuperarpassword);
 
+        if(!users.get(num).getPerguntaSeguranca().equals(spnPerguntaSeguranca.getSelectedItem().toString()) ||
+                !users.get(num).getRespostaPerguntaSeguranca().equals(respostaPerguntaSeguranca.getText().toString())){
+            txvAvisoRegistar.setText("Dados de recuperação incorretos");
+            txvAvisoRegistar.setTextColor(rgb(255, 0, 0));
+        }
+        else{
+            txfPasswordRegistar = findViewById(R.id.recuperarpassword_novapass);
+            users.get(num).setPassword(txfPasswordRegistar.getText().toString());
+
+            setContentView(R.layout.activity_login);
+        }
+    }
 
     //--------------------------------------------- FICHEIROS ------------------------------------------------
     //------------ GRAVAR DADOS EM FICHEIRO
@@ -214,5 +245,6 @@ public class Login extends AppCompatActivity {
         }
         return users;
     }
+
 }
 

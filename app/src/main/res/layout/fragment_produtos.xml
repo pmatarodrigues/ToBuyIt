@@ -32,12 +32,13 @@
                 android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
                 android:scaleType="centerCrop"
-                android:src="@drawable/tobuyit_logo"
+                android:src="@drawable/tobuyit_logo3"
                 app:layout_collapseMode="parallax" />
 
             <TextView
+                android:background="@color/colorPrimary"
                 android:layout_width="200dp"
-                android:layout_height="50dp"
+                android:layout_height="80dp"
                 android:text="Produtos"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"

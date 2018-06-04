@@ -24,9 +24,9 @@ import java.util.ArrayList;
 
 public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHolder>{
 
-    Activity context;
     ArrayList<Produto> produtos;
     private static LayoutInflater inflater = null;
+    private Context context;
 
 
     public ProdutoAdapter(ArrayList<Produto> produtos){
@@ -46,14 +46,6 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
         holder.precoProduto.setText(produtos.get(position).getPreco() + "€");
         holder.imagemProduto.setImageResource(produtos.get(position).getImagem());
 
-        holder.iconAddCarrinho.setOnClickListener(new View.OnClickListener() {
-            Produto produtoAAdicionarAoCarrinho;
-            @Override
-            public void onClick(View v) {
-                System.out.println(produtos.get(position).getNome());
-            }
-        });
-
         if(produtos.get(position).getEmPromocao()){
             holder.iconPromocoes.setVisibility(View.VISIBLE);
         } else{
@@ -70,7 +62,6 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
         private TextView nomeProduto;
         private TextView precoProduto;
         private ImageView imagemProduto;
-        private ImageView iconAddCarrinho;
         private ImageView iconPromocoes;
         private MyViewHolder(View itemView){
             super(itemView);
@@ -78,7 +69,6 @@ public class ProdutoAdapter extends RecyclerView.Adapter<ProdutoAdapter.MyViewHo
             precoProduto = (TextView) itemView.findViewById(R.id.lista_produto_preco);
             imagemProduto = (ImageView) itemView.findViewById(R.id.lista_produto_imagem);
 
-            iconAddCarrinho = (ImageView) itemView.findViewById(R.id.lista_produto_add_carrinho);
             iconPromocoes = (ImageView) itemView.findViewById(R.id.lista_produtos_icon_promocao);
         }
     }

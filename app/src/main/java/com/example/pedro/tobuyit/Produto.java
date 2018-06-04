@@ -12,6 +12,7 @@ public class Produto implements Serializable{
     private String aviso;
     private String curiosidade;
     private Boolean esgotado;
+    private int qtdNoCarrinho;
 
     public Produto(int id, String nome, float preco, int imagem, Boolean emPromocao, String aviso, String curiosidade) {
         this.id = id;
@@ -85,5 +86,13 @@ public class Produto implements Serializable{
 
     public void setImagem(int imagem) {
         this.imagem = imagem;
+    }
+
+    public int getQtdNoCarrinho() {
+        return qtdNoCarrinho;
+    }
+
+    public void setQtdNoCarrinho(int qtdNoCarrinho) {
+        this.qtdNoCarrinho = qtdNoCarrinho;
     }
 }

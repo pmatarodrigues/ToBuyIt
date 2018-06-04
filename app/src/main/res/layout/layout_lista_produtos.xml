@@ -50,6 +50,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginTop="20dp"
                     >
 
                     <TextView
@@ -75,16 +76,6 @@
                 </LinearLayout>
 
 
-                <ImageView
-                        android:id="@+id/lista_produto_add_carrinho"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_marginRight="30dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:src="@drawable/icon_adicionar_carrinho"
-                        android:onClick="adicionarProdutoAoCarrinhoDaLista"
-                        />
 
             </LinearLayout>
             </LinearLayout>

@@ -43,6 +43,7 @@ public class CarrinhoAdapter extends RecyclerView.Adapter<CarrinhoAdapter.MyView
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.nomeProduto.setText(produtosNoCarrinho.get(position).getNome());
         holder.precoProduto.setText(produtosNoCarrinho.get(position).getPreco() + "€");
+        holder.qtdProduto.setText(String.valueOf(produtosNoCarrinho.get(position).getQtdNoCarrinho()));
         holder.imagemProduto.setImageResource(produtosNoCarrinho.get(position).getImagem());
 
         if(produtosNoCarrinho.get(position).getEmPromocao()){
@@ -50,6 +51,8 @@ public class CarrinhoAdapter extends RecyclerView.Adapter<CarrinhoAdapter.MyView
         } else{
             holder.iconPromocoes.setVisibility(View.INVISIBLE);
         }
+
+
     }
 
     @Override
@@ -60,12 +63,16 @@ public class CarrinhoAdapter extends RecyclerView.Adapter<CarrinhoAdapter.MyView
     public static class MyViewHolder extends RecyclerView.ViewHolder{
         private TextView nomeProduto;
         private TextView precoProduto;
+        private TextView qtdProduto;
+
         private ImageView imagemProduto;
         private ImageView iconPromocoes;
         private MyViewHolder(View itemView){
             super(itemView);
             nomeProduto = (TextView)itemView.findViewById(R.id.lista_carrinho_nome);
             precoProduto = (TextView) itemView.findViewById(R.id.lista_carrinho_preco);
+            qtdProduto = (TextView) itemView.findViewById(R.id.lista_carrinho_quantidade);
+
             imagemProduto = (ImageView) itemView.findViewById(R.id.lista_carrinho_imagem);
 
             iconPromocoes = (ImageView) itemView.findViewById(R.id.lista_carrinho_icon_promocao);

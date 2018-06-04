@@ -1,13 +1,14 @@
 package com.example.pedro.tobuyit;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Carrinho {
+public class Carrinho implements Serializable{
 
     private ArrayList<Produto> produtos;
     private float precoTotal;
 
-    public Carrinho() {
+    public Carrinho(ArrayList<Produto> produtos) {
         this.produtos = produtos;
     }
 

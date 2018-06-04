@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@android:color/white"
+    >
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
 >
     <ImageView
         android:layout_width="200dp"
@@ -78,6 +84,25 @@
         android:textAlignment="center"
         />
 
+    <Spinner
+        android:id="@+id/registar_perguntaseguranca"
+        android:layout_width="217dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:entries="@array/opcoes_perguntaseguranca"
+        android:inputType="textPassword"
+        />
+
+    <EditText
+        android:id="@+id/registar_perguntaseguranca_resposta"
+        android:layout_width="217dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:layout_gravity="center"
+        android:hint="Escreva a resposta"
+        android:textSize="20dp"
+        />
+
     <Button
         android:id="@+id/botao_voltar_ao_login"
         android:layout_width="match_parent"
@@ -92,7 +117,7 @@
     <Button
         android:id="@+id/botao_registar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="70dp"
         android:background="@drawable/side_nav_bar"
         android:text="@string/botao_registar"
         android:onClick="registar"
@@ -102,3 +127,5 @@
 
 
 </LinearLayout>
+
+</ScrollView>

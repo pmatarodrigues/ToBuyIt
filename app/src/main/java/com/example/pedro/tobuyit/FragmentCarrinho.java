@@ -57,7 +57,7 @@ public class FragmentCarrinho extends Fragment {
                     // --- percorre todos os carrinhos
         for (int i = 0; i< main.produtosNoCarrinho.size(); i++) {
                         // -------- recebe o preço dos produtos e adiciona ao total
-            precoTotalCarrinho += main.produtosNoCarrinho.get(i).getPreco();
+            precoTotalCarrinho += main.produtosNoCarrinho.get(i).getPreco() * main.produtosNoCarrinho.get(i).getQtdNoCarrinho();
             produtosAConfirmar.add(main.produtosNoCarrinho.get(i));
         }
         precoCarrinho.setText(precoTotalCarrinho + "€");

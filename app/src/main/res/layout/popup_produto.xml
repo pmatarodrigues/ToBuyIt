@@ -97,6 +97,16 @@
 
     </LinearLayout>
 
+    <EditText
+        android:id="@+id/popup_produto_quantidadeproduto"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:hint="Quantidade a adicionar"
+        android:padding="20dp"
+        android:layout_gravity="center"
+        android:inputType="number"
+        />
+
     <Button
         android:id="@+id/popup_botao_adicionar_ao_carrinho"
         android:layout_marginTop="10dp"

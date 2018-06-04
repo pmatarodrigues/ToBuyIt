@@ -8,7 +8,8 @@
     tools:context=".FragmentAMinhaConta"
     android:id="@+id/layout_aminhaconta"
     android:background="@android:color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -82,6 +83,92 @@
                 android:orientation="vertical"
                 >
 
+                <TextView
+                    android:id="@+id/aminhaconta_olausername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Olá username"
+                    android:textSize="20sp"
+                    android:textColor="@android:color/black"
+                    android:paddingLeft="20dp"
+                    android:textStyle="bold"
+                    />
+
+                <Button
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text="Alterar palavra-passe"
+                    android:textSize="20dp"
+                    android:textAllCaps="true"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:onClick="ocultarAlterarPassword"
+                    android:background="#CFD8DC"
+                    />
+
+                <LinearLayout
+                    android:id="@+id/alterarpassword_espaco_aminhaconta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:paddingRight="20dp"
+                    android:paddingLeft="20dp"
+                    android:visibility="gone"
+                    >
+
+                    <!-- alterar password -->
+                    <EditText
+                        android:id="@+id/aminhaconta_alterarpassword_antiga"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:hint="Palavra-passe atual"
+                        />
+
+                    <EditText
+                        android:id="@+id/aminhaconta_alterarpassword_nova"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:hint="Palavra-passe nova"
+                        />
+
+                    <EditText
+                        android:id="@+id/aminhaconta_alterarpassword_confirmarnova"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:hint="Confirmar Palavra-passe nova"
+                        />
+
+                    <Button
+                        android:id="@+id/aminhaconta_alterarpassword_confirmar"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="200dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:text="confirmar"
+                        android:background="@drawable/button_background"
+                        android:textColor="@android:color/white"
+                        android:onClick="alterarPassword"
+                        />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Compras recentes"
+                    android:textSize="20dp"
+                    android:textAllCaps="true"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    />
 
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"

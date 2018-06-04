@@ -8,6 +8,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.media.Image;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -56,9 +58,12 @@ public class MainActivity extends AppCompatActivity
     ArrayList<ListaCompras> listaCompras = new ArrayList<>();
     ArrayList<Compra> comprasRecentes = new ArrayList<>();
 
+    Carrinho carrinho;
+
 
     private TextView usernameNav;
     private ListView listViewProdutos;
+    int indexProdutoARemover;
 
     private ProdutoAdapter adapter;
     private Dialog popup;
@@ -94,8 +99,17 @@ public class MainActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-        users.get(num).setComprasRecentes(comprasRecentes);
-        users.get(num).setListasDeCompras(listaCompras);
+        for(int i = 0; i < users.size(); i++){
+            System.out.println(users.get(i).getUsername());
+        }
+
+
+        if (users.get(num).getComprasRecentes() == null) {
+            users.get(num).setComprasRecentes(comprasRecentes);
+        }
+        if(users.get(num).getListasDeCompras() == null) {
+            users.get(num).setListasDeCompras(listaCompras);
+        }
 
         View hview = navigationView.inflateHeaderView(R.layout.nav_header_main);
 
@@ -201,29 +215,16 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public ArrayList<Produto> getProdutos() {
-        return produtos;
+    public void abrirProdutoDaSemana(View view){
+        FragmentProdutos fragment = new FragmentProdutos();
+        android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction().replace(R.id.fragment_layout, fragment, fragment.getTag()).commit();
     }
 
-    public ArrayList<Produto> getProdutosNoCarrinho() {
-        return produtosNoCarrinho;
-    }
-
-    // --------- LER UTILIZADORES GUARDADOS ------------------//
-    public ArrayList<Utilizador> lerUtilizadoresGuardados() throws ClassNotFoundException {
-        ArrayList<Utilizador> users = new ArrayList<>();
-        try {
-            FileInputStream fis = getApplicationContext().openFileInput("users.txt");
-            ObjectInputStream is = new ObjectInputStream(fis);
-            users = (ArrayList<Utilizador>) is.readObject();
-            is.close();
-            fis.close();
-
-            System.out.println("\nUTILIZADOR RECEBIDO!");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return users;
+    public void abrirPromocaoDaSemana(View view){
+        FragmentPromocoes fragment = new FragmentPromocoes();
+        android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction().replace(R.id.fragment_layout, fragment, fragment.getTag()).commit();
     }
 
     // ----------------------------------------------- FUNÇÕES DA LISTA DE PRODUTOS ---------------------------------------------- //
@@ -244,15 +245,15 @@ public class MainActivity extends AppCompatActivity
 
     // ------- ADICIONAR PRODUTOS À LISTA DE PRODUTOS
     public void addProdutos() {
-        produtos.add(new Produto(produtos.size() + 1, "Maçã Golden", (float) 3.30, R.drawable.imagem_produtos_maca, false, "Este produto contém gluten", "Uma maçã por dia não sabe o bem que lhe fazia!"));
-        produtos.add(new Produto(produtos.size() + 1, "Bebida Energética Monster", (float) 3.30, R.drawable.imagem_produtos_bebidaenergetica_monster, false, "Não recomendado para diabéticos", "Este produto é energético"));
-        produtos.add(new Produto(produtos.size() + 1, "Coca-Cola Lata", (float) 3.30, R.drawable.imagem_produtos_cocacola, true, "A maça esta podre", "A Maça da pra comer?"));
-        produtos.add(new Produto(produtos.size() + 1, "Compal", (float) 3.30, R.drawable.imagem_produtos_compal, false, "A maça esta podre", "A Maça da pra comer?"));
-        produtos.add(new Produto(produtos.size() + 1, "Leite Achocolatado Agros", (float) 3.30, R.drawable.imagem_produtos_leiteachocolatado_agros, false, "A maça esta podre", "A Maça da pra comer?"));
-        produtos.add(new Produto(produtos.size() + 1, "Quejo Limianos", (float) 3.30, R.drawable.imagem_produtos_queijo_limianos, false, "A maça esta podre", "A Maça da pra comer?"));
-        produtos.add(new Produto(produtos.size() + 1, "Pizza Congelada", (float) 3.30, R.drawable.imagem_produtos_pizza, true, "A maça esta podre", "A Maça da pra comer?"));
-        produtos.add(new Produto(produtos.size() + 1, "Pudim Baunilha", (float) 3.30, R.drawable.imagem_produtos_pudim_baunilha, false, "A maça esta podre", "A Maça da pra comer?"));
-        produtos.add(new Produto(produtos.size() + 1, "Queijo Cabra", (float) 3.30, R.drawable.imagem_produtos_queijo_cabra, false, "A maça esta podre", "A Maça da pra comer?"));
+        produtos.add(new Produto(produtos.size() + 1, "Maçã Golden", (float) 1.89, R.drawable.imagem_produtos_maca, false, "Este produto contém gluten", "Uma maçã por dia não sabe o bem que lhe fazia!"));
+        produtos.add(new Produto(produtos.size() + 1, "Bebida Energética Monster", (float) 1.49, R.drawable.imagem_produtos_bebidaenergetica_monster, false, "Não recomendado para diabéticos", "Este produto é energético"));
+        produtos.add(new Produto(produtos.size() + 1, "Coca-Cola Lata", (float) 0.99, R.drawable.imagem_produtos_cocacola, true, "Contém açúcar", "3.1% dos produtos consumidos em todo o mundo são da Coca-Cola"));
+        produtos.add(new Produto(produtos.size() + 1, "Compal", (float) 1.49, R.drawable.imagem_produtos_compal, false, "Contém açúcar", "É da Compal"));
+        produtos.add(new Produto(produtos.size() + 1, "Leite Achocolatado Agros", (float) 1.54, R.drawable.imagem_produtos_leiteachocolatado_agros, false, "Contém 158 calorias", "É da Agros"));
+        produtos.add(new Produto(produtos.size() + 1, "Quejo Limianos", (float) 1.99, R.drawable.imagem_produtos_queijo_limianos, false, "Não recomendado para intolerantes à lactose", "É da Limianos"));
+        produtos.add(new Produto(produtos.size() + 1, "Pizza Congelada", (float) 3.99, R.drawable.imagem_produtos_pizza, true, "Pode conter caroços", "Inventada em Itália"));
+        produtos.add(new Produto(produtos.size() + 1, "Pudim Baunilha", (float) 0.99, R.drawable.imagem_produtos_pudim_baunilha, false, "Contém baunilha", "Não é pudim caseiro"));
+        produtos.add(new Produto(produtos.size() + 1, "Queijo Cabra", (float) 1.99, R.drawable.imagem_produtos_queijo_cabra, true, "Não recomendado para intolerantes à lactose", "É de cabra"));
     }
 
     // ------------------- ABRIR POPUP DE PRODUTO ---------------------- //
@@ -298,12 +299,23 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    public void concluirListaCompras(View view) throws IOException {
+        gravarUtilizador(users);
+
+        FragmentListaCompras fragment = new FragmentListaCompras();
+        android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction().replace(R.id.fragment_layout, fragment, fragment.getTag()).commit();
+    }
+
     // ------------------- FUNÇÕES DO CARRINHO ------------------------- //
     public void adicionarProdutoAoCarrinho(View view) throws IOException {
+        TextView txvQuantidade = popup.findViewById(R.id.popup_produto_quantidadeproduto);
+        produtoAAdicionarAoCarrinho.setQtdNoCarrinho(Integer.parseInt(txvQuantidade.getText().toString()));
         produtosNoCarrinho.add(produtoAAdicionarAoCarrinho);
         //users.get(num).getCarrinho().addProduto(findProduto(2));
         //System.out.println(users.get(num).getUsername());
-        Toast.makeText(this, "'" + produtoAAdicionarAoCarrinho.getNome() + "' adicionado ao carrinho!", Toast.LENGTH_SHORT).show();
+        popup.dismiss();
+        Toast.makeText(this, produtoAAdicionarAoCarrinho.getQtdNoCarrinho() + " '" + produtoAAdicionarAoCarrinho.getNome() + "' adicionado ao carrinho!", Toast.LENGTH_SHORT).show();
     }
 
     public void carregarCarrinho(View view) throws ClassNotFoundException {
@@ -327,24 +339,51 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void adicionarProdutoAoCarrinhoDaLista(View view, String nomeProduto) throws IOException {
+    public void removerProdutoDoCarrinho(View view) {
+        produtosNoCarrinho.remove(indexProdutoARemover);
 
+        Toast.makeText(this, "Produto removido do carrinho", Toast.LENGTH_SHORT).show();
+        popup.dismiss();
+
+        FragmentCarrinho fragment = new FragmentCarrinho();
+        android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction().replace(R.id.fragment_layout, fragment, fragment.getTag()).commit();
+    }
+
+    public void abrirPopupProdutoDoCarrinho(View view){
+        TextView fecharPopup;
+        TextView titulo;
+        TextView tituloBotao;
+        ImageView imagem;
+
+        // ------------- associar às views
+        popup.setContentView(R.layout.popup_produto_removerdocarrinho);
+        fecharPopup = (TextView) popup.findViewById(R.id.fechar_popup);
+        titulo = (TextView) popup.findViewById(R.id.popup_titulo);
+        imagem = (ImageView) popup.findViewById(R.id.popup_imagem);
+        tituloBotao = (TextView) view.findViewById(R.id.lista_produto_nome);
 
         try {
             // -------- verificar qual o produto que foi clicado
-            for (int i = 0; i < produtos.size(); i++) {
-                if (produtos.get(i).getNome().equals(nomeProduto)) {
-                    produtoAAdicionarAoCarrinho = produtos.get(i);
+            for (int i = 0; i < produtosNoCarrinho.size(); i++) {
+                if (produtosNoCarrinho.get(i).getNome().equals(tituloBotao.getText().toString())) {
+                    titulo.setText(produtosNoCarrinho.get(i).getNome());
+                    imagem.setImageResource(produtosNoCarrinho.get(i).getImagem());
+                    indexProdutoARemover = i;
                 }
             }
         } catch (Exception e) {
             System.out.println("ERRO A VERIFICAR PRODUTO CLICADO");
         }
-        adicionarProdutoAoCarrinho(view);
-    }
-
-    public void removerProdutoDoCarrinho(View view) {
-
+        // ---------------- BOTAO DE FECHAR POPUP
+        fecharPopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup.dismiss();
+            }
+        });
+        popup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popup.show();
     }
 
     public void adicionarTextoListaCompras(View view) throws IOException, ClassNotFoundException {
@@ -353,6 +392,10 @@ public class MainActivity extends AppCompatActivity
 
         ListaCompras compra = new ListaCompras(listaCompras.size() + 1, textoCompra.getText().toString(), false);
         users.get(num).getListasDeCompras().add(compra);
+        textoCompra.setText("");
+        FragmentListaCompras fragment = new FragmentListaCompras();
+        android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+        manager.beginTransaction().replace(R.id.fragment_layout, fragment, fragment.getTag()).commit();
 
         for (int i = 0; i < users.get(num).getListasDeCompras().size(); i++) {
             System.out.println("COMPRAS: " + users.get(num).getListasDeCompras().get(i).getTexto());
@@ -365,23 +408,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
-    public void gravarUtilizador(ArrayList<Utilizador> users) throws IOException {
-
-        try {
-            FileOutputStream fos = this.openFileOutput("users.txt", Context.MODE_PRIVATE);
-            ObjectOutputStream os = new ObjectOutputStream(fos);
-            os.writeObject(users);
-            os.close();
-            fos.close();
-
-            System.out.println("\n\nUTILIZADOR GUARDADO!");
-            System.out.println(users.get(num).getListasDeCompras().size());
-        } catch (IOException e) {
-            Log.e("Exception", "Erro ao gravar para ficheiro: " + e.toString());
-        }
-    }
-
+    // ----- abrir popup de introdução dos dados para a conclusao do carrinho
     public void concluirCarrinho(View view) {
         TextView fecharPopup;
         TextView popupCarrinhoPreco;
@@ -390,26 +417,36 @@ public class MainActivity extends AppCompatActivity
 
         for (int i = 0; i < produtosNoCarrinho.size(); i++) {
             // -------- recebe o preço dos produtos e adiciona ao total
-            precoTotalCarrinho += produtosNoCarrinho.get(i).getPreco();
+            precoTotalCarrinho += produtosNoCarrinho.get(i).getPreco() * produtosNoCarrinho.get(i).getQtdNoCarrinho();
         }
 
-        popup.setContentView(R.layout.popup_concluir_carrinho);
-        popupCarrinhoPreco = (TextView) popup.findViewById(R.id.popup_carrinho_preco);
-        System.out.println(precoTotalCarrinho);
-        fecharPopup = (TextView) popup.findViewById(R.id.fechar_popup);
-        popupCarrinhoPreco.setText(precoTotalCarrinho + "€");
+        carrinho = new Carrinho(produtosNoCarrinho);
+        carrinho.setPrecoTotal(precoTotalCarrinho);
 
-        fecharPopup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popup.dismiss();
-            }
-        });
+        if(produtosNoCarrinho.size() == 0){
+            Toast.makeText(this, "Não tem produtos no carrinho", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            popup.setContentView(R.layout.popup_concluir_carrinho);
+            popupCarrinhoPreco = (TextView) popup.findViewById(R.id.popup_carrinho_preco);
+            System.out.println(precoTotalCarrinho);
+            fecharPopup = (TextView) popup.findViewById(R.id.fechar_popup);
+            popupCarrinhoPreco.setText(precoTotalCarrinho + "€");
 
-        popup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        popup.show();
+
+            fecharPopup.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    popup.dismiss();
+                }
+            });
+
+            popup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            popup.show();
+        }
     }
 
+    // ------ avançar para a escolha do tipo de compra
     public void concluirCompra(View view) {
 
         Spinner opcaoCompra = (Spinner) popup.findViewById(R.id.popup_carrinho_opcaocompra);
@@ -435,15 +472,16 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    // ------ confirmar compra e encomenda
     public void compraConfirmada(View view) throws IOException {
         float precoTotalCarrinho = 0;
 
         for (int i = 0; i < produtosNoCarrinho.size(); i++) {
             // -------- recebe o preço dos produtos e adiciona ao total
-            precoTotalCarrinho += produtosNoCarrinho.get(i).getPreco();
+            precoTotalCarrinho += produtosNoCarrinho.get(i).getPreco() * produtosNoCarrinho.get(i).getQtdNoCarrinho();
         }
 
-        Compra compra = new Compra(users.get(num), precoTotalCarrinho, Calendar.getInstance().getTime());
+        Compra compra = new Compra(users.get(num), carrinho.getPrecoTotal(), Calendar.getInstance().getTime());
 
         Spinner opcaoCompra = (Spinner) popup.findViewById(R.id.popup_carrinho_opcaocompra);
         TextView textoSelecioneSupermercado = (TextView) popup.findViewById(R.id.popup_texto_introduzasupermercado);
@@ -457,13 +495,151 @@ public class MainActivity extends AppCompatActivity
         if (opcaoCompra.getSelectedItem().toString().equals("Levantar no Supermercado")) {
             Toast.makeText(this, users.get(num).getUsername() + ", pode levantar o seu pedido no supermercado ToBuyIt selecionado." , Toast.LENGTH_SHORT).show();
             compra.setTipo("Supermercado");
+            compra.setProdutosComprados(produtosNoCarrinho);
             users.get(num).getComprasRecentes().add(compra);
+            System.out.println(users.get(num).getComprasRecentes().get(0).getProdutosComprados().get(0).getNome());
+
+            gravarUtilizador(users);
+            produtosNoCarrinho.clear();
+            popup.dismiss();
+
+            FragmentCarrinho fragment = new FragmentCarrinho();
+            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.fragment_layout, fragment, fragment.getTag()).commit();
+
 // ----- caso pretenda receber os produtos em casa
         } else if (opcaoCompra.getSelectedItem().toString().equals("Receber em Casa")) {
             Toast.makeText(this, users.get(num).getUsername() + ", o seu pedido será entregue na morada " +
                     fieldIntroduzaMorada.getText().toString(), Toast.LENGTH_SHORT).show();
             compra.setTipo("Domicilio");
+            compra.setProdutosComprados(produtosNoCarrinho);
             users.get(num).getComprasRecentes().add(compra);
+
+            for(int i = 0; i < users.size(); i++){
+                System.out.println(users.get(i).getUsername());
+            }
+            gravarUtilizador(users);
+            produtosNoCarrinho.clear();
+            popup.dismiss();
+
+            FragmentCarrinho fragment = new FragmentCarrinho();
+            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+            manager.beginTransaction().replace(R.id.fragment_layout, fragment, fragment.getTag()).commit();
         }
     }
+
+
+    // --------------------- FUNÇÕES DE A MINHA CONTA ----------------------//
+    public void abrirPopupCompra(View view) throws ClassNotFoundException {
+        TextView fecharPopup;
+        TextView tipo;
+        TextView produto;
+        TextView data;
+        TextView preco;
+        TextView dataCompra;
+
+        // ------------- associar às views
+        popup.setContentView(R.layout.popup_compra);
+        fecharPopup = (TextView) popup.findViewById(R.id.fechar_popup);
+        tipo = (TextView) popup.findViewById(R.id.popup_tipo);
+        produto = (TextView) popup.findViewById(R.id.popup_compra_produto);
+        data = (TextView) popup.findViewById(R.id.popup_compra_data);
+        preco = (TextView) popup.findViewById(R.id.popup_compra_preco);
+        dataCompra = (TextView) view.findViewById(R.id.lista_comprasrecentes_data);
+
+        users = lerUtilizadoresGuardados();
+
+        // -------- verificar qual o produto que foi clicado
+        for(int i = 0; i < users.get(num).getComprasRecentes().size(); i++){
+
+            // --------- verifica a data da compra clicada na lista de compras do user
+            if(users.get(num).getComprasRecentes().get(i).getData().toString().equals(dataCompra.getText().toString())){
+                produto.setText(users.get(num).getComprasRecentes().get(i).getProdutosComprados().get(0).getNome());
+                produto.append("\n");
+                tipo.setText(users.get(num).getComprasRecentes().get(i).getTipo());
+                for(int p = 1; p < users.get(num).getComprasRecentes().get(i).getProdutosComprados().size(); p++) {
+                    produto.append(users.get(num).getComprasRecentes().get(i).getProdutosComprados().get(p).getNome());
+                    produto.append("\n");
+                }
+                data.setText(users.get(num).getComprasRecentes().get(i).getData().toString());
+                preco.setText(String.valueOf(users.get(num).getComprasRecentes().get(i).getPreco()) + " €");
+            }
+        }
+
+
+        // ---------------- BOTAO DE FECHAR POPUP
+        fecharPopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup.dismiss();
+            }
+        });
+        popup.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popup.show();
+    }
+
+    public void alterarPassword(View view) throws IOException {
+        EditText passwordAntiga = findViewById(R.id.aminhaconta_alterarpassword_antiga);
+        EditText passwordNova = findViewById(R.id.aminhaconta_alterarpassword_nova);
+        EditText confirmarNova = findViewById(R.id.aminhaconta_alterarpassword_confirmarnova);
+        Button confirmarAlteracao = findViewById(R.id.aminhaconta_alterarpassword_confirmar);
+
+        if(!passwordAntiga.getText().toString().equals(users.get(num).getPassword())){
+            Toast.makeText(this, "A palavra-passe antiga não esta correta!", Toast.LENGTH_SHORT).show();
+        } else if(!passwordNova.getText().toString().equals(confirmarNova.getText().toString())){
+            Toast.makeText(this, "As Palavras-passe novas não são iguais!", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            users.get(num).setPassword(passwordNova.getText().toString());
+            gravarUtilizador(users);
+            passwordAntiga.setText("");
+            passwordNova.setText("");
+            confirmarNova.setText("");
+            Toast.makeText(this, "A Palavra-passe foi alterada com sucesso!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void ocultarAlterarPassword(View view){
+        LinearLayout comprasRecentesTexto = findViewById(R.id.alterarpassword_espaco_aminhaconta);
+        if(comprasRecentesTexto.getVisibility() == View.GONE) {
+            comprasRecentesTexto.setVisibility(View.VISIBLE);
+        } else{
+            comprasRecentesTexto.setVisibility(View.GONE);
+        }
+    }
+
+
+    // ---------------------- FICHEIROS ----------------------//
+    public void gravarUtilizador(ArrayList<Utilizador> users) throws IOException {
+
+        try {
+            FileOutputStream fos = this.openFileOutput("users.txt", Context.MODE_PRIVATE);
+            ObjectOutputStream os = new ObjectOutputStream(fos);
+            os.writeObject(users);
+            os.close();
+            fos.close();
+
+            System.out.println("\n\nUTILIZADOR GUARDADO!");
+        } catch (IOException e) {
+            Log.e("Exception", "Erro ao gravar para ficheiro: " + e.toString());
+        }
+    }
+
+    // --------- LER UTILIZADORES GUARDADOS ------------------//
+    public ArrayList<Utilizador> lerUtilizadoresGuardados() throws ClassNotFoundException {
+        ArrayList<Utilizador> users = new ArrayList<>();
+        try {
+            FileInputStream fis = getApplicationContext().openFileInput("users.txt");
+            ObjectInputStream is = new ObjectInputStream(fis);
+            users = (ArrayList<Utilizador>) is.readObject();
+            is.close();
+            fis.close();
+
+            System.out.println("\nUTILIZADOR RECEBIDO!");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
 }

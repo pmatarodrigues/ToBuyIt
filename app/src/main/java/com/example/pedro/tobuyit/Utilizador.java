@@ -23,6 +23,8 @@ public class Utilizador implements Serializable {
     private ArrayList<ListaCompras> listasDeCompras;
     private Carrinho carrinho;
     private ArrayList<Compra> comprasRecentes;
+    private String perguntaSeguranca;
+    private String respostaPerguntaSeguranca;
 
     public Utilizador(Boolean ativo) {
         this.ativo = ativo;
@@ -82,5 +84,21 @@ public class Utilizador implements Serializable {
 
     public void setComprasRecentes(ArrayList<Compra> comprasRecentes) {
         this.comprasRecentes = comprasRecentes;
+    }
+
+    public String getPerguntaSeguranca() {
+        return perguntaSeguranca;
+    }
+
+    public void setPerguntaSeguranca(String perguntaSeguranca) {
+        this.perguntaSeguranca = perguntaSeguranca;
+    }
+
+    public String getRespostaPerguntaSeguranca() {
+        return respostaPerguntaSeguranca;
+    }
+
+    public void setRespostaPerguntaSeguranca(String respostaPerguntaSeguranca) {
+        this.respostaPerguntaSeguranca = respostaPerguntaSeguranca;
     }
 }

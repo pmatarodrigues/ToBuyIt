@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:layout_gravity="center"
+    >
+
+    <TextView
+        android:id="@+id/fechar_popup"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:textColor="@android:color/white"
+        android:text="X"
+        android:textStyle="bold"
+        android:layout_gravity="end"
+        android:textAlignment="center"
+        android:paddingTop="11dp"
+        android:background="@color/colorPrimaryDark"
+        />
+
+    <ImageView
+        android:id="@+id/popup_imagem"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginBottom="10dp"
+        />
+
+    <TextView
+        android:id="@+id/popup_titulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:text="Titulo"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        />
+
+
+
+    <Button
+        android:id="@+id/popup_botao_remover_do_carrinho"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:text="Remover do carrinho"
+        android:textColor="@android:color/white"
+        android:onClick="removerProdutoDoCarrinho"
+        />
+
+
+
+</LinearLayout>

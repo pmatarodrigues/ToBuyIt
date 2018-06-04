@@ -30,4 +30,10 @@
         <item>Peniche</item>
     </string-array>
 
+    <string-array name="opcoes_perguntaseguranca">
+        <item>Qual o nome de solteira da sua mãe?</item>
+        <item>Qual o nome do seu primeiro animal de estimação?</item>
+        <item>Com quantos kg nasceu?</item>
+    </string-array>
+
 </resources>

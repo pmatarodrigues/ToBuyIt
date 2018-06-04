@@ -1,12 +1,14 @@
 package com.example.pedro.tobuyit;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.view.menu.MenuView;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.PointerIcon;
@@ -26,7 +28,6 @@ import java.util.ArrayList;
 
 public class ListaComprasAdapter extends RecyclerView.Adapter<ListaComprasAdapter.MyViewHolder>{
 
-    Activity context;
     ArrayList<ListaCompras> listaCompras;
     private static LayoutInflater inflater = null;
 
@@ -50,11 +51,10 @@ public class ListaComprasAdapter extends RecyclerView.Adapter<ListaComprasAdapte
             holder.compra.setPaintFlags(holder.compra.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
-        holder.compra.setOnClickListener(new View.OnClickListener() {
+        holder.artigo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listaCompras.get(position).setConcluido(true);
-                System.out.println(listaCompras.get(position).getConcluido());
             }
         });
 
@@ -67,10 +67,12 @@ public class ListaComprasAdapter extends RecyclerView.Adapter<ListaComprasAdapte
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
         private TextView compra;
+        private CardView artigo;
 
         private MyViewHolder(View itemView){
             super(itemView);
             compra = (TextView) itemView.findViewById(R.id.lista_listacompras_nome);
+            artigo = itemView.findViewById(R.id.lista_artigo_listacompras);
 
         }
     }
